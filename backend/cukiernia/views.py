@@ -1,4 +1,6 @@
 from django.urls import path
+from rest_framework import viewsets
+from rest_framework import status
 from django.contrib.auth.models import User, Group
 from django.http import HttpResponse, JsonResponse
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
@@ -9,7 +11,7 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
-from .serializers import UserSerializer
+from .serializers import UserSerializer, CustomUserSerializer
 
 # Create your views here.
 class CustomUserCreate(APIView):
@@ -25,7 +27,10 @@ class CustomUserCreate(APIView):
             user = serializer.save()
             if user:
                 json = serializer.data
+                token, created = Token.objects.get_or_create(user=user)
+                json["token"] = token
                 return Response(data={
+            'token': token.key,
             'user_id': user.pk,
             'email': user.email}
         ,status=status.HTTP_201_CREATED)
@@ -36,12 +41,4 @@ class CustomObtainAuthToken(ObtainAuthToken):
         response = super(CustomObtainAuthToken, self).post(request, *args, **kwargs)
         token = Token.objects.get(key=response.data['token'])
         user = User.objects.get(pk=token.user_id)
-        image_data=""
-        try:
-            prof = UserProfile.objects.get(user=user)
-            image_path = str(prof.avatar)
-            with open(image_path, "rb") as image_file:
-                image_data = base64.b64encode(image_file.read()).decode('utf-8')
-        except Exception:
-            pass
-        return Response({'token': token.key, 'id': token.user_id, 'is_admin': user.is_superuser, "avatar": image_data})
+        return Response({'token': token.key, 'id': token.user_id, 'is_admin': user.is_superuser})
