@@ -25,10 +25,7 @@ class CustomUserCreate(APIView):
             user = serializer.save()
             if user:
                 json = serializer.data
-                token, created = Token.objects.get_or_create(user=user)
-                json["token"] = token
                 return Response(data={
-            'token': token.key,
             'user_id': user.pk,
             'email': user.email}
         ,status=status.HTTP_201_CREATED)
