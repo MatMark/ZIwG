@@ -27,7 +27,7 @@ class RelatedProductJunction(models.Model):
 class ProductPhoto(models.Model):
     product_id = models.ForeignKey('Product', on_delete=models.PROTECT)
     main_photo = models.BooleanField()
-    url = models.URLField()
+    url = models.CharField(max_length=150)
 
 class TextBox(models.Model):
     name = models.CharField(max_length=50)
@@ -52,7 +52,8 @@ class Carousel(models.Model):
     enabled = models.BooleanField()
 
 class CarouselPhoto(models.Model):
-    url = models.URLField()
+    url = models.CharField(max_length=150)
+
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False,**kwargs):

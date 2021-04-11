@@ -11,8 +11,8 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
-from .serializers import UserSerializer, CustomUserSerializer, CategorySerializer
-from .models import Category
+from .serializers import UserSerializer, CustomUserSerializer, CategorySerializer, CarouselSerializer, ProductSerializer
+from .models import Category, Carousel, CarouselPhoto, Product
 
 # Create your views here.
 class CustomUserCreate(APIView):
@@ -44,19 +44,52 @@ class CustomObtainAuthToken(ObtainAuthToken):
         user = User.objects.get(pk=token.user_id)
         return Response({'token': token.key, 'id': token.user_id, 'is_admin': user.is_superuser})
 
-@api_view(['GET', 'POST'])
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
+@api_view(['GET',])
+@permission_classes([AllowAny])
 def categories_list(request):
     if request.method == 'GET':
         data = Category.objects.all()
         serializer = CategorySerializer(data, many=True)
         return JsonResponse(serializer.data, safe=False)
 
-    elif request.method == 'POST':
-        data = JSONParser().parse(request)
-        serializer = CategorySerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return JsonResponse(serializer.data, status=201)
-        return JsonResponse(serializer.errors, status=400)
+@api_view(['GET',])
+@authentication_classes([AllowAny])
+def carousel(request):
+    if request.method == 'GET':
+        data = Carousel.objects.all()
+        result = {'enabled':data[0].enabled,}
+        if data[0].enabled:
+            photos = list(CarouselPhoto.objects.all().values('url'))
+            result['photos'] = photos
+        return JsonResponse(result, safe=False)
+
+@api_view(['GET',])
+@permission_classes([AllowAny])
+def products_list(request):
+    if request.method == 'GET':
+        
+        if request.GET.get('category','') != "":
+            data = Product.objects.filter(category_id=request.GET.get('category',''))
+            serializer = ProductSerializer(data, many=True)
+            return JsonResponse(serializer.data, safe=False)
+        elif request.GET.get('recommend','') != "":
+            data = Product.objects.filter(recommended=request.GET.get('recommend',''))
+            serializer = ProductSerializer(data, many=True)
+            return JsonResponse(serializer.data, safe=False)
+        else:
+            data = Product.objects.all()
+            serializer = ProductSerializer(data, many=True)
+            return JsonResponse(serializer.data, safe=False)
+    
+
+@api_view(['GET',])
+@permission_classes([AllowAny])
+def product(request, pk):
+    try:
+        data = Product.objects.get(pk=pk)
+    except Product.DoesNotExist:
+        return HttpResponse(status=404)
+
+    if request.method == 'GET':
+        serializer = ProductSerializer(data)
+        return JsonResponse(serializer.data)
