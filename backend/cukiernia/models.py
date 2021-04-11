@@ -17,12 +17,12 @@ class Product(models.Model):
     product_description_pl = models.TextField()
     product_description_en = models.TextField()
     category_id = models.ForeignKey('Category', on_delete=models.PROTECT)
-    related_product_junction_id = models.ForeignKey('RelatedProductJunction', on_delete=models.PROTECT)
+    recommended = models.BooleanField()
+    # related_product_junction_id = models.ForeignKey('RelatedProductJunction', on_delete=models.PROTECT)
 
 class RelatedProductJunction(models.Model):
-    related_first = models.ManyToManyField()
-    related_second = models.ManyToManyField()
-
+    related_first = models.ManyToManyField(Product, related_name='related_first')
+    related_second = models.ManyToManyField(Product, related_name='related_second')
 
 class ProductPhoto(models.Model):
     product_id = models.ForeignKey('Product', on_delete=models.PROTECT)
@@ -38,7 +38,7 @@ class ComboBox(models.Model):
     product_id = models.ForeignKey('Product', on_delete=models.CASCADE)
 
 class Calendar(models.Model):
-    product_id = models.ForeignKey('Product', on_delete=models.CASCADE)
+    name = models.CharField(max_length=50)
 
 class ComboBoxValue(models.Model):
     text = models.CharField(max_length=50)

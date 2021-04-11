@@ -1,5 +1,7 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
+from .models import Product, ProductPhoto, TextBox, ComboBox, ComboBoxValue
+from .models import Calendar, Category, Carousel, CarouselPhoto, RelatedProductJunction
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -41,3 +43,55 @@ class CustomUserSerializer(serializers.ModelSerializer):
             instance.set_password(password)
         instance.save()
         return instance
+
+
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ['id', 'code', 'price', 'name_pl', 'name_en', 'product_description_pl', 
+        'product_description_en', 'category_id', 'recommended', ]
+
+class RelatedProductJunctionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RelatedProductJunction
+        fields = ['id', 'related']
+
+
+class ProductPhotoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductPhoto
+        fields = ['id', 'product_id', 'main_photo', 'url']
+
+class TextBoxSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TextBox
+        fields = ['id', 'name', 'product_id']
+
+class ComboBoxSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ComboBox
+        fields = ['id', 'name', 'product_id']
+
+class CalendarSerializer(serializers.ModelSerializer):
+    model = Calendar
+    fields = ['id', 'name']
+
+class ComboBoxValueSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ComboBoxValue
+        fields = ['id', 'text', 'combo_box_id']
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ['id', 'name_pl', 'name_en']
+
+class CarouselSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Carousel
+        fields = ['id', 'enabled']
+
+class CarouselPhotoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CarouselPhoto
+        fields = ['id', 'url']      
