@@ -1,0 +1,12 @@
+{
+    "home": {
+        "recomendations": "Polecane produkty"
+    },
+    "productCard": {
+        "code": "Kod",
+        "name": "Nazwa",
+        "price": "Cena",
+        "addToCart": "Do koszyka",
+        "custom": "Personalizuj"
+    }
+}
