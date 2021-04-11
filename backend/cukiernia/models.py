@@ -6,7 +6,53 @@ from django.conf import settings
 
 # Create your models here.
 
+class Product(models.Model):
+    '''
+    Class depicting product.
+    '''
+    code = models.CharField(max_length=15)
+    price = models.FloatField()
+    name_pl = models.CharField(max_length=50)
+    name_en = models.CharField(max_length=50)
+    product_description_pl = models.TextField()
+    product_description_en = models.TextField()
+    category_id = models.ForeignKey('Category', on_delete=models.PROTECT)
+    related_product_junction_id = models.ForeignKey('RelatedProductJunction', on_delete=models.PROTECT)
 
+class RelatedProductJunction(models.Model):
+    related_first = models.ManyToManyField()
+    related_second = models.ManyToManyField()
+
+
+class ProductPhoto(models.Model):
+    product_id = models.ForeignKey('Product', on_delete=models.PROTECT)
+    main_photo = models.BooleanField()
+    url = models.URLField()
+
+class TextBox(models.Model):
+    name = models.CharField(max_length=50)
+    product_id = models.ForeignKey('Product', on_delete=models.CASCADE)
+
+class ComboBox(models.Model):
+    name = models.CharField(max_length=50)
+    product_id = models.ForeignKey('Product', on_delete=models.CASCADE)
+
+class Calendar(models.Model):
+    product_id = models.ForeignKey('Product', on_delete=models.CASCADE)
+
+class ComboBoxValue(models.Model):
+    text = models.CharField(max_length=50)
+    combo_box_id = models.ForeignKey('ComboBox', on_delete=models.CASCADE)
+
+class Category(models.Model):
+    name_pl = models.CharField(max_length=50)
+    name_en = models.CharField(max_length=50)
+
+class Carousel(models.Model):
+    enabled = models.BooleanField()
+
+class CarouselPhoto(models.Model):
+    url = models.URLField()
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False,**kwargs):
