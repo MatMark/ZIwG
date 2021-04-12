@@ -8,5 +8,12 @@
         "price": "Price",
         "addToCart": "Add to cart",
         "custom": "Personalize"
+    },
+    "appMenu": {
+        "language": "Language",
+        "menu": "Menu",
+        "allProducts": "ALL PRODUCTS",
+        "packing": "How I pack your order",
+        "contact": "Contact"
     }
 }
