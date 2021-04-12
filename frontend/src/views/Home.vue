@@ -2,7 +2,7 @@
   <v-container>
     <v-row class="text-center">
       <v-col>
-        <home-page-carousel />
+        <HomePageCarousel />
         <v-card>
           <v-card-title>
             {{ $t("home.recomendations") }}
@@ -19,7 +19,7 @@
                 xl="2"
               >
                 <v-row align="center" justify="center">
-                  <product-card :product="product" />
+                  <ProductCard :product="product" />
                 </v-row>
               </v-col>
             </v-row>
@@ -61,12 +61,15 @@ export default {
   },
   data() {
     return {
-      products: [
-        { Id: 1, Code: "qwerty", Name: "test product 1", Price: 1.22 },
-        { Id: 2, Code: "asdfgh", Name: "test product 2", Price: 10.25 },
-        { Id: 3, Code: "zxcvbn", Name: "test product 3", Price: 0.11 }
-      ]
+      products: []
     };
+  },
+  mounted() {
+    this.$axios
+      // .get(`${window.location.origin}/backend/products/`)
+      .get('http://127.0.0.1:8000/backend/products/')
+      .then(response => (this.products = response.data));
+      console.log(window.location)
   }
 };
 </script>
