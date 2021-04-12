@@ -67,9 +67,8 @@ export default {
   mounted() {
     this.$axios
       // .get(`${window.location.origin}/backend/products/`)
-      .get('http://127.0.0.1:8000/backend/products/')
+      .get("http://127.0.0.1:8000/backend/products/")
       .then(response => (this.products = response.data));
-      console.log(window.location)
   }
 };
 </script>

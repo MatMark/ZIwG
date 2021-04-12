@@ -69,8 +69,8 @@ export default {
   props: {
     product: {
       type: Object,
-      default: undefined,
-    },
+      default: undefined
+    }
   },
   data() {
     return {};
@@ -78,7 +78,7 @@ export default {
   methods: {
     addToCart() {
       this.$router.push(`/product_details/${this.product.id}`);
-    },
-  },
+    }
+  }
 };
 </script>

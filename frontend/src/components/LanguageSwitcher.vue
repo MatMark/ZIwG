@@ -76,7 +76,7 @@ export default {
       this.selected = locale.toUpperCase();
       this.$i18n.locale = locale;
       this.changeLanguage(locale);
-    //   location.reload();
+      //   location.reload();
     }
   }
 };
