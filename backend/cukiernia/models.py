@@ -27,7 +27,7 @@ class RelatedProductJunction(models.Model):
 class ProductPhoto(models.Model):
     product_id = models.ForeignKey('Product', on_delete=models.PROTECT)
     main_photo = models.BooleanField()
-    url = models.CharField(max_length=150)
+    url = models.ImageField(upload_to ='uploads/products/')
 
 class TextBox(models.Model):
     name = models.CharField(max_length=50)
@@ -52,7 +52,7 @@ class Carousel(models.Model):
     enabled = models.BooleanField()
 
 class CarouselPhoto(models.Model):
-    url = models.CharField(max_length=150)
+    url = models.ImageField(upload_to ='uploads/carousel/')
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)

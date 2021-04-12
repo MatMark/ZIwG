@@ -223,3 +223,5 @@ ssl
 .idea
 nbproject
 !public/uploads/.gitkeep
+
+uploads
