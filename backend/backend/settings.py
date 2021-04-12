@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'cukiernia',
     'corsheaders',
+    'django_summernote',
 ]
 
 MIDDLEWARE = [
@@ -124,7 +125,7 @@ USE_I18N = True
 
 USE_L10N = True
 USE_TZ = True
-
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 MEDIA_ROOT='../'
 
 # Static files (CSS, JavaScript, Images)
