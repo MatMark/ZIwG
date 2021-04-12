@@ -18,6 +18,6 @@ from django.contrib import admin
 from rest_framework import routers
 
 urlpatterns = [
-    path('', include('cukiernia.urls')),
-    path('admin/', admin.site.urls),
+    path('backend/', include('cukiernia.urls')),
+    path('backend/admin/', admin.site.urls),
 ]
