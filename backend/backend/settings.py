@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'cukiernia',
     'corsheaders',
+    'django_summernote',
 ]
 
 MIDDLEWARE = [
@@ -123,11 +124,11 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_L10N = True
-
 USE_TZ = True
-
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+MEDIA_ROOT='../'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/backend/static/'

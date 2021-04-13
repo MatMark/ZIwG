@@ -1,14 +1,16 @@
 from django.contrib import admin
 from .models import Product, ProductPhoto, TextBox, ComboBox, ComboBoxValue
 from .models import Calendar, Category, Carousel, CarouselPhoto, RelatedProductJunction
+from django_summernote.admin import SummernoteModelAdmin
 
 
 # Register your models here.
 
 @admin.register(Product)
-class ProductAdmin(admin.ModelAdmin):
+class ProductAdmin(SummernoteModelAdmin):
     list_display = ['code', 'name_pl','name_en', 'price' ,'category_id', 'recommended']
     ordering = ['name_pl', 'name_en', 'price']
+    summernote_fields = '__all__'
 
 @admin.register(RelatedProductJunction)
 class RelatedProductJunctionAdmin(admin.ModelAdmin):

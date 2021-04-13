@@ -8,5 +8,21 @@
         "price": "Cena",
         "addToCart": "Do koszyka",
         "custom": "Personalizuj"
+    },
+    "appMenu": {
+        "language": "Język",
+        "menu": "Menu",
+        "allProducts": "WSZYSTKIE PRODUKTY",
+        "packing": "Jak pakujemy Twoje zamówienie",
+        "contact": "Kontakt"
+    },
+    "productsPage": {
+        "category": "Kategoria",
+        "noProducts": "Brak produktów w wybranej kategorii/podkategorii",
+        "search": "Szukaj"
+    },
+    "productDetailsPage": {
+        "price": "Cena",
+        "description": "Opis"
     }
 }

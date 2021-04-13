@@ -1,32 +1,40 @@
 <template>
-  <div style="height: 400px">
+  <div style="height: 420px">
     <v-card :id="product.id" v-if="product" width="170" tile>
-      <router-link :to="`/product_details/${product.Id}`">
+      <router-link class="pa-1" :to="`/product_details/${product.id}`">
         <v-img
-          v-if="product.url"
-          :src="strapi + product.url"
-          width="170"
-          height="200"
-          :alt="'product_details/' + product.Id"
+          v-if="product.photo"
+          :src="product.photo"
+          contain
+          width="150"
+          height="160"
+          class="ma-auto"
+          :alt="'product_details/' + product.id"
         />
         <v-img
           v-else
-          :src="require('../assets/logo.png')"
+          :src="require('@/assets/logo.png')"
           contain
           width="150"
-          height="200"
+          height="160"
           class="ma-auto"
-          :alt="'product_details/' + product.Id"
+          :alt="'product_details/' + product.id"
         />
       </router-link>
 
-      <v-card-text class="px-2 py-1">
-        <v-container class="py-1">
+      <v-card-text class="pa-2">
+        <v-container class="py-2">
           <v-row>
             <v-card style="height: 100px" class="caption text-left" flat>
-              {{ $t("productCard.code") }}: <em>{{ product.Code }}</em>
+              {{ $t("productCard.code") }}: <em>{{ product.code }}</em>
               <br />
-              {{ $t("productCard.name") }}: <em>{{ product.Name }}</em>
+              {{ $t("productCard.name") }}:
+              <template v-if="this.$i18n.locale === 'pl'"
+                ><em>{{ product.name_pl }}</em></template
+              >
+              <template v-else
+                ><em>{{ product.name_en }}</em></template
+              >
             </v-card>
           </v-row>
         </v-container>
@@ -34,7 +42,7 @@
       <v-card-actions class="pt-0 mt-4">
         <v-container class="py-0">
           <v-row class="subtitle-2 text-right" justify="end" align="center">
-            {{ $t("productCard.price") }}: {{ product.Price.toFixed(2) }} zł
+            {{ $t("productCard.price") }}: {{ product.price.toFixed(2) }} zł
           </v-row>
           <v-row justify="center" align="center">
             <v-btn
@@ -60,7 +68,6 @@
 </style>
 <script>
 export default {
-  components: {},
   props: {
     product: {
       type: Object,
@@ -72,7 +79,7 @@ export default {
   },
   methods: {
     addToCart() {
-      this.$router.push(`/product_details/${this.product.Id}`);
+      this.$router.push(`/product_details/${this.product.id}`);
     }
   }
 };

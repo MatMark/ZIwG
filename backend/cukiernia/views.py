@@ -12,7 +12,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from .serializers import UserSerializer, CustomUserSerializer, CategorySerializer, CarouselSerializer, ProductSerializer
-from .models import Category, Carousel, CarouselPhoto, Product
+from .models import Category, Carousel, CarouselPhoto, Product, ProductPhoto
 
 # Create your views here.
 class CustomUserCreate(APIView):
@@ -77,10 +77,14 @@ def products_list(request):
             serializer = ProductSerializer(data, many=True)
             return JsonResponse(serializer.data, safe=False)
         else:
-            data = Product.objects.all()
-            serializer = ProductSerializer(data, many=True)
-            return JsonResponse(serializer.data, safe=False)
-    
+            data = list(Product.objects.all().values())
+            for product in data:
+                photo = list(ProductPhoto.objects.filter(product_id=product['id']).filter(main_photo=True).values('url'))
+                if len(photo)>0:
+                    product['photo']=photo[0]['url']
+                else:
+                    product['photo'] = ''
+            return JsonResponse(data, safe=False)
 
 @api_view(['GET',])
 @permission_classes([AllowAny])
