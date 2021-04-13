@@ -12,7 +12,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from .serializers import UserSerializer, CustomUserSerializer, CategorySerializer, CarouselSerializer, ProductSerializer
-from .models import Category, Carousel, CarouselPhoto, Product, ProductPhoto
+from .models import Category, Carousel, CarouselPhoto, Product, ProductPhoto, TextBox, ComboBox, ComboBoxValue
 
 # Create your views here.
 class CustomUserCreate(APIView):
@@ -93,5 +93,10 @@ def product(request, pk):
 
     if request.method == 'GET':
         photos = list(ProductPhoto.objects.filter(product_id=pk).values('url'))
+        combo_boxes = list(TextBox.objects.filter(product_id=pk).values('id','name','is_required'))
+        for combo_box in combo_boxes:
+            combo_box['values'] = list(ComboBoxValue.objects.filter(combo_box_id=combo_box['id']).values('text'))
+        data_2[0]['combo_boxes'] = combo_boxes
+        data_2[0]['text_boxes'] = list(TextBox.objects.filter(product_id=pk).values('id','name','is_required'))
         data_2[0]['photos'] = photos
         return JsonResponse(data_2[0])
