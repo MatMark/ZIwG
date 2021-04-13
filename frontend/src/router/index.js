@@ -1,8 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
-import ProductDetails from "../views/ProductDetails.vue";
-import PageNotFound from "../views/PageNotFound.vue";
+import Home from "@/views/Home.vue";
+import ProductDetails from "@/views/ProductDetails.vue";
+import AllProducts from "@/views/AllProducts.vue";
+import PageNotFound from "@/views/PageNotFound.vue";
 
 Vue.use(VueRouter);
 
@@ -17,6 +18,11 @@ const routes = [
     path: "/product_details/:id",
     name: "ProductDetails",
     component: ProductDetails
+  },
+  {
+    path: "/all_products",
+    name: "AllProducts",
+    component: AllProducts
   },
   {
     path: "/*",

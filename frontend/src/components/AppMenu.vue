@@ -44,7 +44,7 @@
 
           <v-list>
             <v-list-item-group>
-              <v-list-item dense :to="'/allProducts'">
+              <v-list-item dense :to="'/all_products'">
                 <v-list-item-title>
                   {{ $t("appMenu.allProducts") }}
                 </v-list-item-title>

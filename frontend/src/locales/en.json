@@ -15,5 +15,10 @@
         "allProducts": "ALL PRODUCTS",
         "packing": "How I pack your order",
         "contact": "Contact"
+    },
+    "productsPage": {
+        "category": "Category",
+        "noProducts": "No products in selected category/subcategory",
+        "search": "Search"
     }
 }

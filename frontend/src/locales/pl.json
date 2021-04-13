@@ -15,5 +15,10 @@
         "allProducts": "WSZYSTKIE PRODUKTY",
         "packing": "Jak pakujemy Twoje zamówienie",
         "contact": "Kontakt"
+    },
+    "productsPage": {
+        "category": "Kategoria",
+        "noProducts": "Brak produktów w wybranej kategorii/podkategorii",
+        "search": "Szukaj"
     }
 }

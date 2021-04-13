@@ -66,8 +66,8 @@ export default {
   },
   mounted() {
     this.$axios
-      // .get(`${window.location.origin}/backend/products/`)
-      .get("http://127.0.0.1:8000/backend/products/")
+      // .get(`${window.location.origin}/backend/products/?recommend=True`)
+      .get("http://127.0.0.1:8000/backend/products/?recommend=True")
       .then(response => (this.products = response.data));
   }
 };
