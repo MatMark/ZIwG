@@ -69,31 +69,29 @@ def products_list(request):
     if request.method == 'GET':
         
         if request.GET.get('category','') != "":
-            data = Product.objects.filter(category_id=request.GET.get('category',''))
-            serializer = ProductSerializer(data, many=True)
-            return JsonResponse(serializer.data, safe=False)
+            data = list(Product.objects.filter(category_id=request.GET.get('category','')).values())
+            
         elif request.GET.get('recommend','') != "":
-            data = Product.objects.filter(recommended=request.GET.get('recommend',''))
-            serializer = ProductSerializer(data, many=True)
-            return JsonResponse(serializer.data, safe=False)
+            data = list(Product.objects.filter(recommended=request.GET.get('recommend','')).values())
         else:
             data = list(Product.objects.all().values())
-            for product in data:
-                photo = list(ProductPhoto.objects.filter(product_id=product['id']).filter(main_photo=True).values('url'))
-                if len(photo)>0:
-                    product['photo']=photo[0]['url']
-                else:
-                    product['photo'] = ''
-            return JsonResponse(data, safe=False)
+        for product in data:
+            photo = list(ProductPhoto.objects.filter(product_id=product['id']).filter(main_photo=True).values('url'))
+            if len(photo)>0:
+                product['photo']=photo[0]['url']
+            else:
+                product['photo'] = ''
+        return JsonResponse(data, safe=False)
 
 @api_view(['GET',])
 @permission_classes([AllowAny])
 def product(request, pk):
     try:
-        data = Product.objects.get(pk=pk)
+        data_2 = list(Product.objects.filter(pk=pk).values())
     except Product.DoesNotExist:
         return HttpResponse(status=404)
 
     if request.method == 'GET':
-        serializer = ProductSerializer(data)
-        return JsonResponse(serializer.data)
+        photos = list(ProductPhoto.objects.filter(product_id=pk).values('url'))
+        data_2[0]['photos'] = photos
+        return JsonResponse(data_2[0])

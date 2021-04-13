@@ -3,6 +3,7 @@ from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 from django.db.models.signals import post_save
 from django.conf import settings
+from .helpers import RandomFileName 
 
 # Create your models here.
 
@@ -32,13 +33,18 @@ class ProductPhoto(models.Model):
 class TextBox(models.Model):
     name = models.CharField(max_length=50)
     product_id = models.ForeignKey('Product', on_delete=models.CASCADE)
+    is_required = models.BooleanField()
+
 
 class ComboBox(models.Model):
     name = models.CharField(max_length=50)
     product_id = models.ForeignKey('Product', on_delete=models.CASCADE)
+    is_required = models.BooleanField()
+
 
 class Calendar(models.Model):
     name = models.CharField(max_length=50)
+    is_required = models.BooleanField()
 
 class ComboBoxValue(models.Model):
     text = models.CharField(max_length=50)
