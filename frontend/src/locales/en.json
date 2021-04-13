@@ -20,5 +20,9 @@
         "category": "Category",
         "noProducts": "No products in selected category/subcategory",
         "search": "Search"
+    },
+    "productDetailsPage": {
+        "price": "Price",
+        "description": "Description"
     }
 }

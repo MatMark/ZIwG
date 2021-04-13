@@ -20,5 +20,9 @@
         "category": "Kategoria",
         "noProducts": "Brak produktów w wybranej kategorii/podkategorii",
         "search": "Szukaj"
+    },
+    "productDetailsPage": {
+        "price": "Cena",
+        "description": "Opis"
     }
 }
