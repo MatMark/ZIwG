@@ -12,7 +12,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from .serializers import UserSerializer, CustomUserSerializer, CategorySerializer, CarouselSerializer, ProductSerializer
-from .models import Category, Carousel, CarouselPhoto, Product, ProductPhoto, TextBox, ComboBox, ComboBoxValue
+from .models import Category, Carousel, CarouselPhoto, Product, ProductPhoto, TextBox, ComboBox, ComboBoxValue, RelatedProductJunction
 
 # Create your views here.
 class CustomUserCreate(APIView):
@@ -87,16 +87,27 @@ def products_list(request):
 @permission_classes([AllowAny])
 def product(request, pk):
     try:
-        data_2 = list(Product.objects.filter(pk=pk).values())
+        data = list(Product.objects.filter(pk=pk).values())[0]
     except Product.DoesNotExist:
         return HttpResponse(status=404)
 
     if request.method == 'GET':
         photos = list(ProductPhoto.objects.filter(product_id=pk).values('url'))
         combo_boxes = list(TextBox.objects.filter(product_id=pk).values('id','name','is_required'))
+        related_products_ids = list(RelatedProductJunction.objects.filter().values('related_second'))
+        related_products = []
+        for key in related_products_ids:
+            product = list(Product.objects.filter(pk=key['related_second']).values())[0]
+            photo = list(ProductPhoto.objects.filter(product_id=product['id']).filter(main_photo=True).values('url'))
+            if len(photo)>0:
+                product['photo']=photo[0]['url']
+            else:
+                product['photo'] = ''
+            related_products.append(product)
+        data['related_products'] = related_products
         for combo_box in combo_boxes:
             combo_box['values'] = list(ComboBoxValue.objects.filter(combo_box_id=combo_box['id']).values('text'))
-        data_2[0]['combo_boxes'] = combo_boxes
-        data_2[0]['text_boxes'] = list(TextBox.objects.filter(product_id=pk).values('id','name','is_required'))
-        data_2[0]['photos'] = photos
-        return JsonResponse(data_2[0])
+        data['combo_boxes'] = combo_boxes
+        data['text_boxes'] = list(TextBox.objects.filter(product_id=pk).values('id','name','is_required'))
+        data['photos'] = photos
+        return JsonResponse(data)
