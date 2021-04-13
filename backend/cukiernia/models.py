@@ -3,7 +3,7 @@ from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 from django.db.models.signals import post_save
 from django.conf import settings
-from .helpers import RandomFileName 
+from .helpers import RandomFileName
 
 # Create your models here.
 
@@ -28,7 +28,7 @@ class RelatedProductJunction(models.Model):
 class ProductPhoto(models.Model):
     product_id = models.ForeignKey('Product', on_delete=models.PROTECT)
     main_photo = models.BooleanField()
-    url = models.ImageField(upload_to ='uploads/products/')
+    url = models.ImageField(upload_to =RandomFileName('uploads/products/'))
 
 class TextBox(models.Model):
     name = models.CharField(max_length=50)
@@ -58,7 +58,7 @@ class Carousel(models.Model):
     enabled = models.BooleanField()
 
 class CarouselPhoto(models.Model):
-    url = models.ImageField(upload_to ='uploads/carousel/')
+    url = models.ImageField(upload_to =RandomFileName('uploads/carousel/'))
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
