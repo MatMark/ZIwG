@@ -65,7 +65,7 @@ class ProductPhotoSerializer(serializers.ModelSerializer):
 class TextBoxSerializer(serializers.ModelSerializer):
     class Meta:
         model = TextBox
-        fields = ['id', 'name_pl', 'name_en', 'product_id', 'is_required']
+        fields = ['id', 'name_pl', 'name_en', 'product_id', 'is_required', 'max_length']
 
 class ComboBoxSerializer(serializers.ModelSerializer):
     class Meta:

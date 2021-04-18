@@ -35,6 +35,7 @@ class TextBox(models.Model):
     name_en = models.TextField(max_length=255)
     product_id = models.ForeignKey('Product', on_delete=models.CASCADE)
     is_required = models.BooleanField()
+    max_length = models.IntegerField()
 
 
 class ComboBox(models.Model):
