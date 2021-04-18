@@ -65,21 +65,21 @@ class ProductPhotoSerializer(serializers.ModelSerializer):
 class TextBoxSerializer(serializers.ModelSerializer):
     class Meta:
         model = TextBox
-        fields = ['id', 'name', 'product_id', 'is_required']
+        fields = ['id', 'name_pl', 'name_en', 'product_id', 'is_required']
 
 class ComboBoxSerializer(serializers.ModelSerializer):
     class Meta:
         model = ComboBox
-        fields = ['id', 'name', 'product_id', 'is_required']
+        fields = ['id', 'name_pl', 'name_en', 'product_id', 'is_required']
 
 class CalendarSerializer(serializers.ModelSerializer):
     model = Calendar
-    fields = ['id', 'name','is_required']
+    fields = ['id', 'name_pl', 'name_en', 'is_required', 'product_id']
 
 class ComboBoxValueSerializer(serializers.ModelSerializer):
     class Meta:
         model = ComboBoxValue
-        fields = ['id', 'text', 'combo_box_id']
+        fields = ['id', 'text_en', 'text_pl', 'combo_box_id']
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:

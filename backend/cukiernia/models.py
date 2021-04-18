@@ -31,23 +31,28 @@ class ProductPhoto(models.Model):
     url = models.ImageField(upload_to =RandomFileName('uploads/products/'))
 
 class TextBox(models.Model):
-    name = models.CharField(max_length=50)
+    name_pl = models.TextField(max_length=255)
+    name_en = models.TextField(max_length=255)
     product_id = models.ForeignKey('Product', on_delete=models.CASCADE)
     is_required = models.BooleanField()
 
 
 class ComboBox(models.Model):
-    name = models.CharField(max_length=50)
+    name_pl = models.CharField(max_length=50)
+    name_en = models.CharField(max_length=50)
     product_id = models.ForeignKey('Product', on_delete=models.CASCADE)
     is_required = models.BooleanField()
 
 
 class Calendar(models.Model):
-    name = models.CharField(max_length=50)
+    name_pl = models.CharField(max_length=50)
+    name_en = models.CharField(max_length=50)
+    product_id = models.ForeignKey('Product', on_delete=models.CASCADE)
     is_required = models.BooleanField()
 
 class ComboBoxValue(models.Model):
-    text = models.CharField(max_length=50)
+    text_pl = models.CharField(max_length=50)
+    text_en = models.CharField(max_length=50)
     combo_box_id = models.ForeignKey('ComboBox', on_delete=models.CASCADE)
 
 class Category(models.Model):

@@ -12,14 +12,13 @@ from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from .serializers import UserSerializer, CustomUserSerializer, CategorySerializer, CarouselSerializer, ProductSerializer
-from .models import Category, Carousel, CarouselPhoto, Product, ProductPhoto, TextBox, ComboBox, ComboBoxValue, RelatedProductJunction
+from .models import Category, Carousel, CarouselPhoto, Product, ProductPhoto, TextBox, ComboBox, ComboBoxValue, RelatedProductJunction, Calendar
 
 # Create your views here.
 class CustomUserCreate(APIView):
 
     permission_classes = (AllowAny,)
     authentication_classes = ()
-
     def post(self, request, format='json'):
         serializer = CustomUserSerializer(data=request.data)
         if serializer.is_valid():
@@ -45,7 +44,7 @@ class CustomObtainAuthToken(ObtainAuthToken):
         return Response({'token': token.key, 'id': token.user_id, 'is_admin': user.is_superuser})
 
 @api_view(['GET',])
-@permission_classes([AllowAny])
+@permission_classes([])
 def categories_list(request):
     if request.method == 'GET':
         data = Category.objects.all()
@@ -53,7 +52,7 @@ def categories_list(request):
         return JsonResponse(serializer.data, safe=False)
 
 @api_view(['GET',])
-@authentication_classes([AllowAny])
+@authentication_classes([])
 def carousel(request):
     if request.method == 'GET':
         data = Carousel.objects.all()
@@ -64,7 +63,7 @@ def carousel(request):
         return JsonResponse(result, safe=False)
 
 @api_view(['GET',])
-@permission_classes([AllowAny])
+@permission_classes([])
 def products_list(request):
     if request.method == 'GET':
         
@@ -84,7 +83,7 @@ def products_list(request):
         return JsonResponse(data, safe=False)
 
 @api_view(['GET',])
-@permission_classes([AllowAny])
+@permission_classes([])
 def product(request, pk):
     try:
         data = list(Product.objects.filter(pk=pk).values())[0]
@@ -93,7 +92,7 @@ def product(request, pk):
 
     if request.method == 'GET':
         photos = list(ProductPhoto.objects.filter(product_id=pk).values('url'))
-        combo_boxes = list(TextBox.objects.filter(product_id=pk).values('id','name','is_required'))
+        combo_boxes = list(ComboBox.objects.filter(product_id=pk).values('id', 'name_pl', 'name_en', 'is_required'))
         related_products_ids = list(RelatedProductJunction.objects.filter().values('related_second'))
         related_products = []
         for key in related_products_ids:
@@ -106,8 +105,9 @@ def product(request, pk):
             related_products.append(product)
         data['related_products'] = related_products
         for combo_box in combo_boxes:
-            combo_box['values'] = list(ComboBoxValue.objects.filter(combo_box_id=combo_box['id']).values('text'))
+            combo_box['values'] = list(ComboBoxValue.objects.filter(combo_box_id=combo_box['id']).values('text_pl', 'text_en'))
         data['combo_boxes'] = combo_boxes
-        data['text_boxes'] = list(TextBox.objects.filter(product_id=pk).values('id','name','is_required'))
+        data['text_boxes'] = list(TextBox.objects.filter(product_id=pk).values('id', 'name_pl', 'name_en','is_required'))
+        data['calendars'] = list(Calendar.objects.filter(product_id=pk).values('id', 'name_pl', 'name_en','is_required'))
         data['photos'] = photos
         return JsonResponse(data)

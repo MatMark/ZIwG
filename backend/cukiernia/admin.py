@@ -24,23 +24,23 @@ class ProductPhotoAdmin(admin.ModelAdmin):
 
 @admin.register(TextBox)
 class TextBoxAdmin(admin.ModelAdmin):
-    list_display = ['name', 'product_id']
-    ordering = ['product_id', 'name']
+    list_display = ['name_pl', 'name_en', 'product_id']
+    ordering = ['product_id', 'name_pl', 'name_en']
 
 @admin.register(ComboBox)
 class ComboBoxAdmin(admin.ModelAdmin):
-    list_display = ['name', 'product_id']
-    ordering = ['product_id', 'name']
+    list_display = ['name_pl', 'name_en', 'product_id']
+    ordering = ['product_id', 'name_pl', 'name_en']
 
 @admin.register(Calendar)
 class CalendarAdmin(admin.ModelAdmin):
-    list_display = ['name']
-    ordering = ['name', 'id']
+    list_display = ['name_pl', 'name_en',]
+    ordering = ['name_pl', 'name_en', 'id']
 
 @admin.register(ComboBoxValue)
 class ComboBoxValueAdmin(admin.ModelAdmin):
-    list_display = ['text', 'combo_box_id']
-    ordering = ['combo_box_id', 'text']
+    list_display = ['text_pl', 'text_en', 'combo_box_id']
+    ordering = ['combo_box_id', 'text_pl', 'text_en']
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
