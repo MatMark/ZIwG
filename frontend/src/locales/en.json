@@ -12,7 +12,7 @@
     "appMenu": {
         "language": "Language",
         "menu": "Menu",
-        "allProducts": "ALL PRODUCTS",
+        "allProducts": "All products",
         "packing": "How I pack your order",
         "contact": "Contact"
     },
@@ -23,6 +23,12 @@
     },
     "productDetailsPage": {
         "price": "Price",
-        "description": "Description"
+        "description": "Description",
+        "relatedProducts": "For this product we recommend",
+        "required": "Required fields",
+        "validation": {
+            "notEmpty": "This field cannot be empty",
+            "maxLength": "Max length is {length}"
+        }
     }
 }

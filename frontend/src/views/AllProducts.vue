@@ -96,8 +96,7 @@ export default {
   },
   mounted() {
     this.$axios
-      // .get(`${window.location.origin}/backend/products/`)
-      .get("http://127.0.0.1:8000/backend/products/")
+      .get(`${process.env.VUE_APP_DOMAIN}/backend/products/`)
       .then(response => (this.products = response.data));
   }
 };

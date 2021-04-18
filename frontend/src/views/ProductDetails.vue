@@ -13,18 +13,17 @@
               align="center"
               justify="center"
             >
-            <!-- v-for="n in product.photos.length" -->
               <v-window-item
-                v-for="n in product.photos"
+                v-for="(photo, n) in product.photos"
                 :key="`card-${n}`"
               >
-                <v-card height="375" width="500" class="pa-0" flat>
+                <v-card height="375" width="500" flat>
                   <v-row align="center" justify="center">
                     <v-img
-                      max-height="375"
+                      height="375"
                       max-width="500"
                       contain
-                      :src="product.photos[n - 1].url"
+                      :src="`${baseUrl}/${photo.url}`"
                     />
                     <template v-slot:placeholder>
                       <v-row
@@ -42,8 +41,7 @@
                   </v-row>
                 </v-card>
               </v-window-item>
-              <!-- <v-window-item v-if="product.photos.length === 0"> -->
-              <v-window-item v-if="!product.photos">
+              <v-window-item v-if="product.photos.length === 0">
                 <v-card height="375" width="500" class="pa-0" flat>
                   <v-row align="center" justify="center">
                     <v-img
@@ -71,9 +69,8 @@
             </v-window>
 
             <v-card-actions class="justify-space-between">
-              <!-- v-if="product.photos.length > 1" -->
               <v-slide-group
-                v-if="product.photos"
+                v-if="product.photos.length > 1"
                 v-model="onboarding"
                 class="pa-4"
                 show-arrows
@@ -81,13 +78,13 @@
                 center-active
               >
                 <v-slide-item
-                  v-for="n in product.photos.length"
+                  v-for="(photo, n) in product.photos"
                   :key="`btn-${n}`"
                   v-slot:default="{ active, toggle }"
                 >
                   <v-card class="ma-4" height="100" width="100" @click="toggle">
                     <v-img
-                      :src="gqlurl + product.photos[n - 1].url"
+                      :src="`${baseUrl}/${photo.url}`"
                       aspect-ratio="1"
                       :input-value="active"
                     >
@@ -113,12 +110,99 @@
       </v-col>
       <v-col cols="2" />
       <v-col cols="4">
-        <v-row>
-          <span class="title py-2">
-            {{ $t("productDetailsPage.price") }}:
-            {{ product.price.toFixed(2) }} zł
-          </span>
-        </v-row>
+        <v-form ref="form" lazy-validation>
+          <v-row>
+            <span class="title py-2">
+              {{ $t("productDetailsPage.price") }}:
+              {{ product.price.toFixed(2) }} zł
+            </span>
+          </v-row>
+          <!--:counter="input.Max_length"
+              :maxlength="input.Max_length" -->
+          <v-row
+            v-for="(input, n) in product.text_boxes"
+            :key="`text_box-${n}`"
+          >
+            <v-text-field
+              class="mr-5"
+              v-model="inputs.text_boxes[n]"
+              :rules="fieldRules(input.is_required)"
+              outlined
+              dense
+              clearable
+            >
+              <template v-if="input.is_required === true" v-slot:label>
+                {{ input.name }} *
+              </template>
+              <template v-else v-slot:label>
+                {{ input.name }}
+              </template>
+            </v-text-field>
+          </v-row>
+          <v-row
+            v-for="(input, n) in product.combo_boxes"
+            :key="`combo_box-${n}`"
+          >
+            <v-select
+              class="mr-5"
+              v-model="inputs.combo_boxes[n]"
+              :items="input.values"
+              chips
+              :rules="fieldRules(input.is_required)"
+              clearable
+              outlined
+              dense
+            >
+              <template v-if="input.is_required === true" v-slot:label>
+                {{ input.name }} *
+              </template>
+              <template v-else v-slot:label>
+                {{ input.name }}
+              </template>
+            </v-select>
+          </v-row>
+          <v-row>
+            <span>* {{ $t("productDetailsPage.required") }}</span>
+          </v-row>
+          <v-row v-for="(input, n) in product.calendars" :key="`calendar-${n}`">
+            <v-menu
+              v-model="menus[n]"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
+              min-width="290px"
+              outlined
+              dense
+            >
+              <template v-slot:activator="{ on }">
+                <v-text-field
+                  class="mr-5"
+                  v-model="inputs.calendars[n]"
+                  :rules="fieldRules(input.is_required)"
+                  readonly
+                  outlined
+                  dense
+                  clearable
+                  v-on="on"
+                >
+                  <template v-if="input.is_required === true" v-slot:label>
+                    {{ input.name }} *
+                  </template>
+                  <template v-else v-slot:label>
+                    {{ input.name }}
+                  </template>
+                </v-text-field>
+              </template>
+              <v-date-picker
+                v-model="inputs.combo_boxes[n]"
+                :locale="langCode"
+                :min="today"
+                @input="menus[n] = false"
+              />
+            </v-menu>
+          </v-row>
+        </v-form>
       </v-col>
     </v-row>
     <v-card>
@@ -137,7 +221,7 @@
         </v-tab-item>
       </v-tabs>
     </v-card>
-    <!-- <v-container v-if="product.related_products.length !== 0">
+    <v-container v-if="product.related_products.length !== 0">
       <v-row>
         <h3>{{ $t("productDetailsPage.relatedProducts") }}:</h3>
       </v-row>
@@ -150,13 +234,13 @@
                 :key="related.id"
                 class="ma-5"
               >
-                <product-card :id="related.id" />
+                <ProductCard :product="related" />
               </v-slide-item>
             </v-slide-group>
           </v-card-text>
         </v-card>
       </v-row>
-    </v-container> -->
+    </v-container>
   </v-container>
   <v-container v-else style="height: 100%">
     <v-row justify="center" align="center" style="height: 100%">
@@ -172,20 +256,84 @@
 </template>
 
 <script>
+import ProductCard from "@/components/ProductCard.vue";
 export default {
   name: "ProductDetails",
-  components: {},
+  components: {
+    ProductCard
+  },
   data() {
     return {
+      baseUrl: process.env.VUE_APP_DOMAIN,
       product: undefined,
-      onboarding: 0
+      onboarding: 0,
+      inputs: {
+        text_boxes: [],
+        combo_boxes: [],
+        calendars: []
+      },
+      menus: []
     };
+  },
+  watch: {
+    $route() {
+      this.$axios
+        .get(
+          `${process.env.VUE_APP_DOMAIN}/backend/product/${this.$route.params.id}/`
+        )
+        .then(response => (this.product = response.data));
+      this.inputs = {
+        text_boxes: [],
+        combo_boxes: [],
+        calendars: []
+      };
+      this.menus = [];
+    }
   },
   mounted() {
     this.$axios
-      // .get(`${window.location.origin}/backend/product/${this.$route.params.id}/`)
-      .get(`http://127.0.0.1:8000/backend/product/${this.$route.params.id}/`)
+      .get(
+        `${process.env.VUE_APP_DOMAIN}/backend/product/${this.$route.params.id}/`
+      )
       .then(response => (this.product = response.data));
+    this.$nextTick(function() {
+      window.addEventListener("keyup", this.arrowController);
+    });
+  },
+  beforeDestroy: function() {
+    window.removeEventListener("keyup", this.arrowController);
+  },
+  computed: {
+    today() {
+      let date = new Date();
+      date = date.toJSON().slice(0, 10);
+      const nDate =
+        date.slice(0, 4) + "-" + date.slice(5, 7) + "-" + date.slice(8, 10);
+      date = nDate;
+      return date;
+    }
+  },
+  methods: {
+    arrowController(event) {
+      if (event.which === 37) {
+        // left arrow
+        if (this.onboarding > 0) this.onboarding -= 1;
+        else this.onboarding = this.product.photos.length - 1;
+      }
+      if (event.which === 39) {
+        // right arrow
+        if (this.onboarding < this.product.photos.length - 1)
+          this.onboarding += 1;
+        else this.onboarding = 0;
+      }
+    },
+    fieldRules(required) {
+      if (required) {
+        return [
+          value => !!value || this.$t("productDetailsPage.validation.notEmpty")
+        ];
+      } else return [];
+    }
   }
 };
 </script>

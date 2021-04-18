@@ -4,7 +4,7 @@
       <router-link class="pa-1" :to="`/product_details/${product.id}`">
         <v-img
           v-if="product.photo"
-          :src="product.photo"
+          :src="`${baseUrl}/${product.photo}`"
           contain
           width="150"
           height="160"
@@ -75,7 +75,9 @@ export default {
     }
   },
   data() {
-    return {};
+    return {
+      baseUrl: process.env.VUE_APP_DOMAIN
+    };
   },
   methods: {
     addToCart() {
