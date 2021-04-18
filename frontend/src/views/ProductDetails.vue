@@ -132,10 +132,10 @@
               clearable
             >
               <template v-if="input.is_required === true" v-slot:label>
-                {{ input.name }} *
+                {{ input[`name_${$i18n.locale}`] }} *
               </template>
               <template v-else v-slot:label>
-                {{ input.name }}
+                {{ input[`name_${$i18n.locale}`] }}
               </template>
             </v-text-field>
           </v-row>
@@ -146,7 +146,7 @@
             <v-select
               class="mr-5"
               v-model="inputs.combo_boxes[n]"
-              :items="input.values"
+              :items="comboboxElements(input.values)"
               chips
               :rules="fieldRules(input.is_required)"
               clearable
@@ -154,15 +154,12 @@
               dense
             >
               <template v-if="input.is_required === true" v-slot:label>
-                {{ input.name }} *
+                {{ input[`name_${$i18n.locale}`] }} *
               </template>
               <template v-else v-slot:label>
-                {{ input.name }}
+                {{ input[`name_${$i18n.locale}`] }}
               </template>
             </v-select>
-          </v-row>
-          <v-row>
-            <span>* {{ $t("productDetailsPage.required") }}</span>
           </v-row>
           <v-row v-for="(input, n) in product.calendars" :key="`calendar-${n}`">
             <v-menu
@@ -187,20 +184,23 @@
                   v-on="on"
                 >
                   <template v-if="input.is_required === true" v-slot:label>
-                    {{ input.name }} *
+                    {{ input[`name_${$i18n.locale}`] }} *
                   </template>
                   <template v-else v-slot:label>
-                    {{ input.name }}
+                    {{ input[`name_${$i18n.locale}`] }}
                   </template>
                 </v-text-field>
               </template>
               <v-date-picker
-                v-model="inputs.combo_boxes[n]"
+                v-model="inputs.calendars[n]"
                 :locale="langCode"
                 :min="today"
                 @input="menus[n] = false"
               />
             </v-menu>
+          </v-row>
+          <v-row>
+            <span>* {{ $t("productDetailsPage.required") }}</span>
           </v-row>
         </v-form>
       </v-col>
@@ -213,9 +213,9 @@
         <v-tab-item>
           <v-card flat>
             <v-card-text
-              v-html="product[`product_description_${this.$i18n.locale}`]"
+              v-html="product[`product_description_${$i18n.locale}`]"
             >
-              {{ product[`product_description_${this.$i18n.locale}`] }}
+              {{ product[`product_description_${$i18n.locale}`] }}
             </v-card-text>
           </v-card>
         </v-tab-item>
@@ -311,6 +311,11 @@ export default {
         date.slice(0, 4) + "-" + date.slice(5, 7) + "-" + date.slice(8, 10);
       date = nDate;
       return date;
+    },
+    langCode() {
+      if (this.$i18n.locale === "pl") return "pl-PL";
+      else if (this.$i18n.locale === "en") return "en-EN";
+      else return "pl-PL";
     }
   },
   methods: {
@@ -333,6 +338,11 @@ export default {
           value => !!value || this.$t("productDetailsPage.validation.notEmpty")
         ];
       } else return [];
+    },
+    comboboxElements(elements) {
+      return elements.map(e => {
+        return e[`text_${this.$i18n.locale}`];
+      });
     }
   }
 };
