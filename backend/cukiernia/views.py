@@ -93,7 +93,7 @@ def product(request, pk):
     if request.method == 'GET':
         photos = list(ProductPhoto.objects.filter(product_id=pk).values('url'))
         combo_boxes = list(ComboBox.objects.filter(product_id=pk).values('id', 'name_pl', 'name_en', 'is_required'))
-        related_products_ids = list(RelatedProductJunction.objects.filter().values('related_second'))
+        related_products_ids = list(RelatedProductJunction.objects.filter(related_first=pk).values('related_second'))
         related_products = []
         for key in related_products_ids:
             product = list(Product.objects.filter(pk=key['related_second']).values())[0]
