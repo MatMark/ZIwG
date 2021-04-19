@@ -10,5 +10,8 @@ urlpatterns = [
     path('carousel/', views.carousel),
     path('products/', views.products_list),
     path('product/<int:pk>/', views.product),
+    path('orders/', views.orders_list),
+    path('order/<int:pk>/', views.order),
+
 
 ]

@@ -1,5 +1,6 @@
 from django.db import models
 from django.dispatch import receiver
+from django_currentuser.db.models import CurrentUserField
 from rest_framework.authtoken.models import Token
 from django.db.models.signals import post_save
 from django.conf import settings
@@ -19,7 +20,6 @@ class Product(models.Model):
     product_description_en = models.TextField()
     category_id = models.ForeignKey('Category', on_delete=models.PROTECT)
     recommended = models.BooleanField()
-    # related_product_junction_id = models.ForeignKey('RelatedProductJunction', on_delete=models.PROTECT)
 
 class RelatedProductJunction(models.Model):
     related_first = models.ManyToManyField(Product, related_name='related_first')
@@ -65,6 +65,36 @@ class Carousel(models.Model):
 
 class CarouselPhoto(models.Model):
     url = models.ImageField(upload_to =RandomFileName('uploads/carousel/'))
+
+class Order(models.Model):
+    status_choices_pl = [
+        ('zlozone', 'Złożone'),
+        ('oplacone', 'Opłacone'),
+        ('zrealizowane', 'Zrealizowane')
+    ]
+    status_choices_en = [
+        ('ordered', 'Ordered'),
+        ('paid', 'Paid'),
+        ('complete', 'Complete')
+    ]
+    delivery_methods = [
+        ('odbior', 'Odbiór osobisty'),
+        ('kurier', 'Kurier')
+    ]
+    order_date = models.DateField()
+    delivery_date = models.DateField()
+    status_pl = models.CharField(choices=status_choices_pl, max_length=50)
+    status_en = models.CharField(choices=status_choices_en, max_length=50)
+    street = models.CharField(max_length=100, blank=True, default="")
+    postcode = models.CharField(max_length=6, blank=True, default="")
+    city = models.CharField(max_length=50, blank=True, default="")
+    courier_note = models.TextField(max_length=500)
+    dealer_note = models.TextField(max_length=500)
+    delivery = models.CharField(choices=delivery_methods, max_length=50)
+    price = models.FloatField()
+    products = models.ManyToManyField(Product)
+    user = CurrentUserField()
+
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)

@@ -12,7 +12,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from .serializers import UserSerializer, CustomUserSerializer, CategorySerializer, CarouselSerializer, ProductSerializer
-from .models import Category, Carousel, CarouselPhoto, Product, ProductPhoto, TextBox, ComboBox, ComboBoxValue, RelatedProductJunction, Calendar
+from .models import Category, Carousel, CarouselPhoto, Product, ProductPhoto, TextBox, ComboBox, ComboBoxValue, RelatedProductJunction, Calendar, Order
 
 # Create your views here.
 class CustomUserCreate(APIView):
@@ -111,3 +111,46 @@ def product(request, pk):
         data['calendars'] = list(Calendar.objects.filter(product_id=pk).values('id', 'name_pl', 'name_en','is_required'))
         data['photos'] = photos
         return JsonResponse(data)
+
+@api_view(['GET',])
+@permission_classes([])
+def orders_list(request):
+    if request.method == 'GET':
+        if request.GET.get('user','') != "":
+            data = list(Order.objects.filter(user=request.GET.get('user','')).values())
+        else:
+            data = list(Order.objects.all().values())
+        for order in data:
+            products_id = list(Order.objects.filter(pk=order['id']).values('products'))
+            products = []
+            for p_id in products_id:
+                product = list(Product.objects.filter(pk=p_id['products']).values())[0]
+                photo = list(ProductPhoto.objects.filter(product_id=p_id['products']).filter(main_photo=True).values('url'))
+                if len(photo)>0:
+                    product['photo']=photo[0]['url']
+                else:
+                    product['photo'] = ''
+                products.append(product)
+            order['products'] = products      
+        return JsonResponse(data, safe=False)
+
+
+@api_view(['GET',])
+@permission_classes([])
+def order(request, pk):
+    try:
+        data = list(Order.objects.filter(pk=pk).values())[0]
+    except Product.DoesNotExist:
+        return HttpResponse(status=404)
+    products_id = list(Order.objects.filter(pk=pk).values('products'))
+    products = []
+    for p_id in products_id:
+        product = list(Product.objects.filter(pk=p_id['products']).values())[0]
+        photo = list(ProductPhoto.objects.filter(product_id=p_id['products']).filter(main_photo=True).values('url'))
+        if len(photo)>0:
+            product['photo']=photo[0]['url']
+        else:
+            product['photo'] = ''
+        products.append(product)
+    data['products'] = products
+    return JsonResponse(data)

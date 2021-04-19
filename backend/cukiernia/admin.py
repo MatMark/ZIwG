@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Product, ProductPhoto, TextBox, ComboBox, ComboBoxValue
-from .models import Calendar, Category, Carousel, CarouselPhoto, RelatedProductJunction
+from .models import Calendar, Category, Carousel, CarouselPhoto, RelatedProductJunction, Order
 from django_summernote.admin import SummernoteModelAdmin
 
 
@@ -55,4 +55,9 @@ class CarouselAdmin(admin.ModelAdmin):
 @admin.register(CarouselPhoto)
 class CarouselPhotoAdmin(admin.ModelAdmin):
     list_display = ['url']
+    ordering = ['id']
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ['id']
     ordering = ['id']
