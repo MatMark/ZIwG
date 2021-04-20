@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
-from .models import Product, ProductPhoto, TextBox, ComboBox, ComboBoxValue
+from .models import Product, ProductPhoto, TextBox, ComboBox, ComboBoxValue, OrderStatus
 from .models import Calendar, Category, Carousel, CarouselPhoto, RelatedProductJunction
 
 
@@ -95,3 +95,8 @@ class CarouselPhotoSerializer(serializers.ModelSerializer):
     class Meta:
         model = CarouselPhoto
         fields = ['id', 'url']      
+
+class OrderStatusSerializer(serializers.ModelSerializer):
+    class Meta:
+        model= OrderStatus
+        fields = ['id', 'name_pl', 'name_en']

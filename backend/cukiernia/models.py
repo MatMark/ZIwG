@@ -83,8 +83,7 @@ class Order(models.Model):
     ]
     order_date = models.DateField()
     delivery_date = models.DateField()
-    status_pl = models.CharField(choices=status_choices_pl, max_length=50)
-    status_en = models.CharField(choices=status_choices_en, max_length=50)
+    status = models.ForeignKey('OrderStatus', on_delete=models.PROTECT)
     street = models.CharField(max_length=100, blank=True, default="")
     postcode = models.CharField(max_length=6, blank=True, default="")
     city = models.CharField(max_length=50, blank=True, default="")
@@ -95,6 +94,9 @@ class Order(models.Model):
     products = models.ManyToManyField(Product)
     user = CurrentUserField()
 
+class OrderStatus(models.Model):
+    name_pl = models.CharField(max_length=25)
+    name_en = models.CharField(max_length=25)
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
