@@ -78,11 +78,11 @@ import CartButton from "@/components/CartButton.vue";
 export default {
   components: {
     LanguageSwitcher,
-    CartButton,
+    CartButton
   },
   data() {
     return { openMenu: false };
   },
-  methods: {},
+  methods: {}
 };
 </script>

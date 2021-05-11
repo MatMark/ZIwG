@@ -371,7 +371,7 @@ const { mapActions } = createNamespacedHelpers("cart");
 export default {
   name: "ProductDetails",
   components: {
-    ProductCard,
+    ProductCard
   },
   data() {
     return {
@@ -381,14 +381,14 @@ export default {
       inputs: {
         text_boxes: [],
         combo_boxes: [],
-        calendars: [],
+        calendars: []
       },
       note: null,
       menus: [],
       amount: 1,
       needDate: null,
       whenYouNeedMenu: false,
-      holidays: [],
+      holidays: []
     };
   },
   watch: {
@@ -397,26 +397,26 @@ export default {
         .get(
           `${process.env.VUE_APP_DOMAIN}/backend/product/${this.$route.params.id}/`
         )
-        .then((response) => (this.product = response.data));
+        .then(response => (this.product = response.data));
       this.inputs = {
         text_boxes: [],
         combo_boxes: [],
-        calendars: [],
+        calendars: []
       };
       this.note = null;
       this.menus = [];
       this.amount = 1;
       this.needDate = null;
       this.whenYouNeedMenu = false;
-    },
+    }
   },
   mounted() {
     this.$axios
       .get(
         `${process.env.VUE_APP_DOMAIN}/backend/product/${this.$route.params.id}/`
       )
-      .then((response) => (this.product = response.data));
-    this.$nextTick(function () {
+      .then(response => (this.product = response.data));
+    this.$nextTick(function() {
       window.addEventListener("keyup", this.arrowController);
       const year = new Date().getFullYear();
       const easter = () => {
@@ -450,13 +450,17 @@ export default {
       }
       this.holidays.push(year + "-01-01"); // Nowy Rok
       this.holidays.push(year + "-01-06"); // Trzech Króli
-      let date = addDays(easter(), 1).toJSON().slice(0, 10);
+      let date = addDays(easter(), 1)
+        .toJSON()
+        .slice(0, 10);
       let nDate =
         date.slice(0, 4) + "-" + date.slice(5, 7) + "-" + date.slice(8, 10);
       this.holidays.push(nDate); // Wielkanoc (poniedziałek)
       this.holidays.push(year + "-05-01"); // 1 maja
       this.holidays.push(year + "-05-03"); // 3 maja
-      date = addDays(easter(), 60).toJSON().slice(0, 10);
+      date = addDays(easter(), 60)
+        .toJSON()
+        .slice(0, 10);
       nDate =
         date.slice(0, 4) + "-" + date.slice(5, 7) + "-" + date.slice(8, 10);
       this.holidays.push(nDate); // Boże Ciało
@@ -467,7 +471,7 @@ export default {
       this.holidays.push(year + "-12-26"); // Boże Narodzenie
     });
   },
-  beforeDestroy: function () {
+  beforeDestroy: function() {
     window.removeEventListener("keyup", this.arrowController);
   },
   computed: {
@@ -496,7 +500,7 @@ export default {
       nDate =
         nDate.slice(0, 4) + "-" + nDate.slice(5, 7) + "-" + nDate.slice(8, 10);
       return nDate;
-    },
+    }
   },
   methods: {
     ...mapActions(["addProduct"]),
@@ -516,13 +520,12 @@ export default {
     fieldRules(required) {
       if (required) {
         return [
-          (value) =>
-            !!value || this.$t("productDetailsPage.validation.notEmpty"),
+          value => !!value || this.$t("productDetailsPage.validation.notEmpty")
         ];
       } else return [];
     },
     comboboxElements(elements) {
-      return elements.map((e) => {
+      return elements.map(e => {
         return e[`text_${this.$i18n.locale}`];
       });
     },
@@ -534,7 +537,7 @@ export default {
           product_id: this.$route.params.id,
           amount: this.amount,
           personalization: {},
-          price: this.product.price,
+          price: this.product.price
         };
 
         this.inputs.text_boxes.forEach((element, i) => {
@@ -571,7 +574,7 @@ export default {
       if (dayOfWeek === 5 || dayOfWeek === 6) return false; // Weekend
       if (this.holidays.includes(nDate)) return false; // Holidays
       return true;
-    },
-  },
+    }
+  }
 };
 </script>

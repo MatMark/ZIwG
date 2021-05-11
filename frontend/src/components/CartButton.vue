@@ -76,14 +76,14 @@ const { mapGetters } = createNamespacedHelpers("cart");
 
 export default {
   components: {
-    CartRow,
+    CartRow
   },
   computed: {
     ...mapGetters(["getProductsInCart", "getCartLength", "getCartAmount"]),
 
     getProducts() {
       return [...this.getProductsInCart].reverse();
-    },
+    }
   },
   methods: {
     yourCart() {
@@ -92,7 +92,7 @@ export default {
       } else {
         this.$router.push("/yourCart");
       }
-    },
-  },
+    }
+  }
 };
 </script>

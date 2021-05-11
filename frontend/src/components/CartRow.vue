@@ -57,30 +57,30 @@ export default {
   props: {
     order: {
       type: Object,
-      default: () => {},
-    },
+      default: () => {}
+    }
   },
   data() {
     return {
       baseUrl: process.env.VUE_APP_DOMAIN,
-      product: null,
+      product: null
     };
   },
   computed: {
     ...mapGetters(["getAmountByOrderId"]),
 
     getByOrderId: {
-      get: function () {
+      get: function() {
         return this.getAmountByOrderId(this.order.order_id);
-      },
-    },
+      }
+    }
   },
   mounted() {
     this.$axios
       .get(
         `${process.env.VUE_APP_DOMAIN}/backend/product/${this.order.product_id}/`
       )
-      .then((response) => (this.product = response.data));
+      .then(response => (this.product = response.data));
   },
   methods: {
     ...mapActions(["removeProduct"]),
@@ -90,7 +90,7 @@ export default {
         window.location.pathname === `/orderEdit/${this.order.order_id}`;
       if (openOrderEdit) this.$router.replace("/home");
       this.removeProduct(this.order.order_id);
-    },
-  },
+    }
+  }
 };
 </script>
