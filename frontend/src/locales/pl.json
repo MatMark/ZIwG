@@ -14,7 +14,8 @@
         "menu": "Menu",
         "allProducts": "Wszystkie produkty",
         "packing": "Jak pakujemy Twoje zamówienie",
-        "contact": "Kontakt"
+        "contact": "Kontakt",
+        "cart": "Koszyk"
     },
     "productsPage": {
         "category": "Kategoria",
@@ -26,9 +27,20 @@
         "description": "Opis",
         "relatedProducts": "Do tego produktu polecamy",
         "required": "Pola wymagane",
+        "note": "Informacje dla sprzedającego",
+        "addToCart": "Do koszyka",
+        "whenYouNeedCake": "Na kiedy potrzebujesz ciasta?",
         "validation": {
             "notEmpty": "To pole nie może być puste",
             "maxLength": "Maksymalna liczba znaków to {length}"
         }
+    },
+    "cart": {
+        "empty": "Twój koszyk jest pusty",
+        "pay": "Pokaż koszyk",
+        "amount": "Suma",
+        "title": "Koszyk",
+        "subtitle": "Liczba produktów w koszyku",
+        "pricePerItem": "Cena za sztukę"
     }
 }

@@ -14,7 +14,8 @@
         "menu": "Menu",
         "allProducts": "All products",
         "packing": "How I pack your order",
-        "contact": "Contact"
+        "contact": "Contact",
+        "cart": "Cart"
     },
     "productsPage": {
         "category": "Category",
@@ -26,9 +27,20 @@
         "description": "Description",
         "relatedProducts": "For this product we recommend",
         "required": "Required fields",
+        "note": "Important information for the store",
+        "addToCart": "Add to cart",
+        "whenYouNeedCake": "When you need a cake?",
         "validation": {
             "notEmpty": "This field cannot be empty",
             "maxLength": "Max length is {length}"
         }
+    },
+    "cart": {
+        "empty": "Your cart is empty",
+        "pay": "Pay",
+        "amount": "Amount",
+        "title": "Cart",
+        "subtitle": "Items in cart",
+        "pricePerItem": "Price per item"
     }
 }

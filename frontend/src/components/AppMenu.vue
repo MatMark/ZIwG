@@ -65,6 +65,7 @@
     <div>
       <v-toolbar class="hidden-sm-and-down" color="transparent" flat>
         <LanguageSwitcher />
+        <CartButton />
       </v-toolbar>
     </div>
   </v-app-bar>
@@ -72,14 +73,16 @@
 
 <script>
 import LanguageSwitcher from "@/components/LanguageSwitcher.vue";
+import CartButton from "@/components/CartButton.vue";
 
 export default {
   components: {
-    LanguageSwitcher
+    LanguageSwitcher,
+    CartButton,
   },
   data() {
     return { openMenu: false };
   },
-  methods: {}
+  methods: {},
 };
 </script>
