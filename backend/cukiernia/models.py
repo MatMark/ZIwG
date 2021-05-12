@@ -64,6 +64,7 @@ class ComboBoxValue(models.Model):
     text_pl = models.CharField(max_length=50)
     text_en = models.CharField(max_length=50)
     combo_box_id = models.ForeignKey('ComboBox', on_delete=models.CASCADE)
+    price_factor = models.DecimalField(max_digits=6, decimal_places=2)
 
 class Category(models.Model):
     name_pl = models.CharField(max_length=50)
@@ -74,6 +75,14 @@ class Carousel(models.Model):
 
 class CarouselPhoto(models.Model):
     url = models.ImageField(upload_to =RandomFileName('uploads/carousel/'))
+
+class Decoration(models.Model):
+    name_pl = models.CharField(max_length=50)
+    name_en = models.CharField(max_length=50)
+    value_pl = models.CharField(max_length=50)
+    value_en = models.CharField(max_length=50)
+    order_id = models.ForeignKey('Order', on_delete=models.CASCADE)
+
 
 class Order(models.Model):
     status_choices_pl = [
