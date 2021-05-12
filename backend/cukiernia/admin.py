@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Product, ProductPhoto, TextBox, ComboBox, ComboBoxValue, OnDemandRetail, InstantRetail
-from .models import Calendar, Category, Carousel, CarouselPhoto, RelatedProductJunction, Order, OrderStatus
+from .models import Calendar, Category, Carousel, CarouselPhoto, RelatedProductJunction, Order, OrderStatus, Delivery
 from django_summernote.admin import SummernoteModelAdmin
 
 
@@ -75,4 +75,9 @@ class OrderAdmin(admin.ModelAdmin):
 @admin.register(OrderStatus)
 class OrderAdmin(admin.ModelAdmin):
     list_display = ['id', 'name_pl', 'name_en']
+    ordering = ['id', 'name_pl', 'name_en']
+
+@admin.register(Delivery)
+class DeliveryAdmin(admin.ModelAdmin):
+    list_display = ['id', 'name_pl', 'name_en', 'price']
     ordering = ['id', 'name_pl', 'name_en']

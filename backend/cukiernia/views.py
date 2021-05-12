@@ -11,9 +11,9 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
-from .serializers import UserSerializer, CustomUserSerializer, CategorySerializer, CarouselSerializer, ProductSerializer
+from .serializers import UserSerializer, CustomUserSerializer, CategorySerializer, CarouselSerializer, ProductSerializer, OrderSerializer
 from .models import Category, Carousel, CarouselPhoto, Product, ProductPhoto, TextBox, ComboBox, ComboBoxValue
-from .models import RelatedProductJunction, Calendar, Order, InstantRetail, OnDemandRetail
+from .models import RelatedProductJunction, Calendar, Order, InstantRetail, OnDemandRetail, Decoration, Delivery
 
 # Create your views here.
 class CustomUserCreate(APIView):
@@ -132,7 +132,7 @@ def product(request, pk):
                 data['quantity_available'] = retail[0]['quantity_available']
         return JsonResponse(data)
 
-@api_view(['GET',])
+@api_view(['GET', 'POST'])
 @permission_classes([])
 def orders_list(request):
     if request.method == 'GET':
@@ -151,8 +151,17 @@ def orders_list(request):
                 else:
                     product['photo'] = ''
                 products.append(product)
-            order['products'] = products      
+            order['products'] = products
         return JsonResponse(data, safe=False)
+    elif request.method == 'POST':
+        data = JSONParser().parse(request)
+        serializer = OrderSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=201)
+        return JsonResponse(serializer.errors, status=400)
+    return HttpResponse(status=400)
+
 
 
 @api_view(['GET',])

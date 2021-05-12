@@ -82,23 +82,9 @@ class Decoration(models.Model):
     value_pl = models.CharField(max_length=50)
     value_en = models.CharField(max_length=50)
     order_id = models.ForeignKey('Order', on_delete=models.CASCADE)
-
+    price = models.DecimalField(max_digits=6, decimal_places=2)
 
 class Order(models.Model):
-    status_choices_pl = [
-        ('zlozone', 'Złożone'),
-        ('oplacone', 'Opłacone'),
-        ('zrealizowane', 'Zrealizowane')
-    ]
-    status_choices_en = [
-        ('ordered', 'Ordered'),
-        ('paid', 'Paid'),
-        ('complete', 'Complete')
-    ]
-    delivery_methods = [
-        ('odbior', 'Odbiór osobisty'),
-        ('kurier', 'Kurier')
-    ]
     order_date = models.DateField()
     delivery_date = models.DateField()
     status = models.ForeignKey('OrderStatus', on_delete=models.PROTECT)
@@ -107,7 +93,7 @@ class Order(models.Model):
     city = models.CharField(max_length=50, blank=True, default="")
     courier_note = models.TextField(max_length=500)
     dealer_note = models.TextField(max_length=500)
-    delivery = models.CharField(choices=delivery_methods, max_length=50)
+    delivery = models.ForeignKey('Delivery', on_delete=models.PROTECT)
     price = models.FloatField()
     products = models.ManyToManyField(Product)
     user = CurrentUserField()
@@ -115,6 +101,11 @@ class Order(models.Model):
 class OrderStatus(models.Model):
     name_pl = models.CharField(max_length=25)
     name_en = models.CharField(max_length=25)
+
+class Delivery(models.Model):
+    name_pl = models.CharField(max_length=25)
+    name_en = models.CharField(max_length=25)
+    price = models.DecimalField(max_digits=6, decimal_places=2)
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
