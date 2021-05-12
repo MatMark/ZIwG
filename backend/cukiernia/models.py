@@ -21,6 +21,15 @@ class Product(models.Model):
     category_id = models.ForeignKey('Category', on_delete=models.PROTECT)
     recommended = models.BooleanField()
 
+class OnDemandRetail(models.Model):
+    product_id = models.ForeignKey('Product', on_delete=models.CASCADE, unique=True)
+    production_time = models.IntegerField(default=1)
+
+class InstantRetail(models.Model):
+    product_id = models.ForeignKey('Product', on_delete=models.CASCADE, unique=True)
+    quantity_available = models.IntegerField(default=0)
+
+
 class RelatedProductJunction(models.Model):
     related_first = models.ManyToManyField(Product, related_name='related_first')
     related_second = models.ManyToManyField(Product, related_name='related_second')

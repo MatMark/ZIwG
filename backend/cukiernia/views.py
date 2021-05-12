@@ -12,7 +12,8 @@ from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from .serializers import UserSerializer, CustomUserSerializer, CategorySerializer, CarouselSerializer, ProductSerializer
-from .models import Category, Carousel, CarouselPhoto, Product, ProductPhoto, TextBox, ComboBox, ComboBoxValue, RelatedProductJunction, Calendar, Order
+from .models import Category, Carousel, CarouselPhoto, Product, ProductPhoto, TextBox, ComboBox, ComboBoxValue
+from .models import RelatedProductJunction, Calendar, Order, InstantRetail, OnDemandRetail
 
 # Create your views here.
 class CustomUserCreate(APIView):
@@ -66,7 +67,6 @@ def carousel(request):
 @permission_classes([])
 def products_list(request):
     if request.method == 'GET':
-        
         if request.GET.get('category','') != "":
             data = list(Product.objects.filter(category_id=request.GET.get('category','')).values())
             
@@ -80,6 +80,15 @@ def products_list(request):
                 product['photo']=photo[0]['url']
             else:
                 product['photo'] = ''
+            retail = list(OnDemandRetail.objects.filter(product_id=product['id']).values())
+            if len(retail) > 0:
+                product['is_on_demand'] = True
+                product['production_time'] = retail[0]['production_time']
+            else:
+                retail = list(InstantRetail.objects.filter(product_id=product['id']).values())
+                if len(retail) > 0:
+                    product['is_on_demand'] = False
+                    product['quantity_available'] = retail[0]['quantity_available']
         return JsonResponse(data, safe=False)
 
 @api_view(['GET',])
@@ -89,7 +98,9 @@ def product(request, pk):
         data = list(Product.objects.filter(pk=pk).values())[0]
     except Product.DoesNotExist:
         return HttpResponse(status=404)
-
+    except IndexError:
+        return HttpResponse(status=404)
+        
     if request.method == 'GET':
         photos = list(ProductPhoto.objects.filter(product_id=pk).values('url'))
         combo_boxes = list(ComboBox.objects.filter(product_id=pk).values('id', 'name_pl', 'name_en', 'is_required'))
@@ -110,6 +121,15 @@ def product(request, pk):
         data['text_boxes'] = list(TextBox.objects.filter(product_id=pk).values('id', 'name_pl', 'name_en','is_required', 'max_length'))
         data['calendars'] = list(Calendar.objects.filter(product_id=pk).values('id', 'name_pl', 'name_en','is_required'))
         data['photos'] = photos
+        retail = list(OnDemandRetail.objects.filter(product_id=pk).values())
+        if len(retail) > 0:
+            data['is_on_demand'] = True
+            data['production_time'] = retail[0]['production_time']
+        else:
+            retail = list(InstantRetail.objects.filter(product_id=pk).values())
+            if len(retail) > 0:
+                data['is_on_demand'] = False
+                data['quantity_available'] = retail[0]['quantity_available']
         return JsonResponse(data)
 
 @api_view(['GET',])
