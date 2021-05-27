@@ -82,6 +82,7 @@ class Decoration(models.Model):
     value_pl = models.CharField(max_length=50)
     value_en = models.CharField(max_length=50)
     order_id = models.ForeignKey('Order', on_delete=models.CASCADE)
+    product_id = models.ForeignKey('Product', on_delete=models.PROTECT)
     price = models.DecimalField(max_digits=6, decimal_places=2)
 
 class Order(models.Model):
@@ -94,7 +95,7 @@ class Order(models.Model):
     courier_note = models.TextField(max_length=500)
     dealer_note = models.TextField(max_length=500)
     delivery = models.ForeignKey('Delivery', on_delete=models.PROTECT)
-    price = models.FloatField()
+    price = models.DecimalField(max_digits=6, decimal_places=2)
     products = models.ManyToManyField(Product)
     user = CurrentUserField()
 

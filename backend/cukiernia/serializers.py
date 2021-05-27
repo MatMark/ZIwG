@@ -124,4 +124,4 @@ class OrderStatusSerializer(serializers.ModelSerializer):
 class DecorationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Decoration
-        fields = ['id', 'name_en', 'name_pl', 'value_pl', 'value_en', 'order_id', 'price']
+        fields = ['id', 'name_en', 'name_pl', 'value_pl', 'value_en', 'order_id', 'product_id', 'price']
