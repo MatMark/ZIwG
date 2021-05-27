@@ -12,17 +12,9 @@
           alt="Vuetify Logo"
           class="shrink mr-2"
           contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
+          :src="require('@/assets/logo.svg')"
           transition="scale-transition"
           width="40"
-        />
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
         />
       </div>
     </router-link>
@@ -49,6 +41,27 @@
                   {{ $t("appMenu.allProducts") }}
                 </v-list-item-title>
               </v-list-item>
+              <v-menu
+                v-for="(category, index) in categories"
+                :key="index"
+                open-on-hover
+                transition="slide-x-transition"
+                right
+                bottom
+                offset-x
+              >
+                <template v-slot:activator="{ on }">
+                  <v-list-item dense :to="`/products/${category.id}`" v-on="on">
+                    <v-list-item-title>
+                      {{
+                        capitalizeFirstLetter(
+                          category[`name_${$i18n.locale.toLocaleLowerCase()}`]
+                        )
+                      }}
+                    </v-list-item-title>
+                  </v-list-item>
+                </template>
+              </v-menu>
             </v-list-item-group>
           </v-list>
         </v-menu>
@@ -81,8 +94,21 @@ export default {
     CartButton
   },
   data() {
-    return { openMenu: false };
+    return {
+      baseUrl: process.env.VUE_APP_DOMAIN,
+      openMenu: false,
+      categories: undefined
+    };
   },
-  methods: {}
+  mounted() {
+    this.$axios
+      .get(`${process.env.VUE_APP_DOMAIN}/backend/categories/`)
+      .then(response => (this.categories = response.data));
+  },
+  methods: {
+    capitalizeFirstLetter(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+  }
 };
 </script>

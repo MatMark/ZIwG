@@ -25,7 +25,15 @@
           :to="`/product_details/${product.id}`"
           style="text-decoration: none; color: black"
         >
-          <span>{{ order.amount }} x {{ product.name }}</span>
+          <span
+            >{{ order.amount }} x
+            <template v-if="this.$i18n.locale === 'pl'"
+              ><em>{{ product.name_pl }}</em></template
+            >
+            <template v-else
+              ><em>{{ product.name_en }}</em></template
+            ></span
+          >
         </router-link>
       </v-col>
       <v-col cols="3" class="caption pa-1">
