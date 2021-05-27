@@ -116,7 +116,7 @@ def product(request, pk):
             related_products.append(product)
         data['related_products'] = related_products
         for combo_box in combo_boxes:
-            combo_box['values'] = list(ComboBoxValue.objects.filter(combo_box_id=combo_box['id']).values('text_pl', 'text_en'))
+            combo_box['values'] = list(ComboBoxValue.objects.filter(combo_box_id=combo_box['id']).values('text_pl', 'text_en', 'price_factor'))
         data['combo_boxes'] = combo_boxes
         data['text_boxes'] = list(TextBox.objects.filter(product_id=pk).values('id', 'name_pl', 'name_en','is_required', 'max_length'))
         data['calendars'] = list(Calendar.objects.filter(product_id=pk).values('id', 'name_pl', 'name_en','is_required'))
