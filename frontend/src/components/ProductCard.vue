@@ -28,10 +28,8 @@
             <v-card style="height: 100px" class="caption text-left" flat>
               {{ $t("productCard.code") }}: <em>{{ product.code }}</em>
               <br />
-              {{ $t("productCard.name") }}: ><em>{{
-                `product.name_${this.$i18n.locale}`
-              }}</em>
-              >
+              {{ $t("productCard.name") }}:
+              <em>{{ product[`name_${this.$i18n.locale}`] }}</em>
             </v-card>
           </v-row>
         </v-container>
