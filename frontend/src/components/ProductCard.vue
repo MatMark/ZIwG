@@ -28,12 +28,9 @@
             <v-card style="height: 100px" class="caption text-left" flat>
               {{ $t("productCard.code") }}: <em>{{ product.code }}</em>
               <br />
-              {{ $t("productCard.name") }}:
-              <template v-if="this.$i18n.locale === 'pl'"
-                ><em>{{ product.name_pl }}</em></template
-              >
-              <template v-else
-                ><em>{{ product.name_en }}</em></template
+              {{ $t("productCard.name") }}: ><em>{{
+                `product.name_${this.$i18n.locale}`
+              }}</em>
               >
             </v-card>
           </v-row>

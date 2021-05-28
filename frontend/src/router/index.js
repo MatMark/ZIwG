@@ -4,6 +4,7 @@ import Home from "@/views/Home.vue";
 import ProductDetails from "@/views/ProductDetails.vue";
 import Products from "@/views/Products.vue";
 import AllProducts from "@/views/AllProducts.vue";
+import YourCart from "@/views/YourCart.vue";
 import PageNotFound from "@/views/PageNotFound.vue";
 
 Vue.use(VueRouter);
@@ -29,6 +30,11 @@ const routes = [
     path: "/all_products",
     name: "AllProducts",
     component: AllProducts
+  },
+  {
+    path: "/yourCart",
+    name: "YourCart",
+    component: YourCart
   },
   {
     path: "/*",

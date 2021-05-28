@@ -32,7 +32,10 @@
         "whenYouNeedCake": "Na kiedy potrzebujesz ciasta?",
         "validation": {
             "notEmpty": "To pole nie może być puste",
-            "maxLength": "Maksymalna liczba znaków to {length}"
+            "maxLength": "Maksymalna liczba znaków to {length}",
+            "invalidNIP": "Niepoprawny numer NIP",
+            "invalidEmail": "Niepoprawny e-mail",
+            "invalidPhone": "Niepoprawny numer telefonu"
         }
     },
     "cart": {
@@ -42,5 +45,108 @@
         "title": "Koszyk",
         "subtitle": "Liczba produktów w koszyku",
         "pricePerItem": "Cena za sztukę"
+    },
+    "yourCartPage": {
+        "personalization": {
+            "needDate": "Na kiedy potrzebne",
+            "note": "Informacja dla sprzedającego",
+            "selectedLabel": "Wybrana etykieta",
+            "labelText": "Tekst na etykiecie",
+            "labelDate": "Data na etykiecie"
+        },
+        "stepper": {
+            "cart": "Koszyk",
+            "yourData": "Twoje dane",
+            "summary": "Podsumowanie",
+            "confirmation": "Potwierdzenie",
+            "continue": "Dalej",
+            "back": "Wróć"
+        },
+        "inputs": {
+            "yourData": {
+                "title": "Twoje dane",
+                "email": "E-mail*",
+                "firstName": "Imię*",
+                "lastName": "Nazwisko*",
+                "phone": "Telefon*"
+            },
+            "address": {
+                "title": "Dane adresowe",
+                "private": "Osoba prywatna",
+                "business": "Firma",
+                "businessName": "Nazwa firmy*",
+                "nip": "NIP*",
+                "street": "Ulica*",
+                "houseNumber": "Nr domu*",
+                "apartmentNumber": "Nr lokalu",
+                "postCode": "Kod pocztowy*",
+                "city": "Miasto*",
+                "country": "Kraj",
+                "otherSendAddress": "Inny adres wysyłki"
+            },
+            "sendAddress": {
+                "title": "Adres wysyłki",
+                "firstName": "Imię*",
+                "lastName": "Nazwisko*",
+                "phone": "Telefon*",
+                "businessName": "Nazwa firmy",
+                "street": "Ulica*",
+                "houseNumber": "Nr domu*",
+                "apartmentNumber": "Nr lokalu",
+                "postCode": "Kod pocztowy*",
+                "city": "Miasto*",
+                "country": "Kraj"
+            },
+            "additionalInfo": {
+                "title": "Dodatkowe informacje",
+                "note": "Uwagi dla sprzedającego",
+                "regulationsBefore": "Zapoznałem się z ",
+                "regulationsLink": "regulaminem",
+                "regulationsAfter": " sklepu internetowego i akceptuję jego treść*",
+                "newsletter": "Zapisz się do naszego newslettera"
+            }
+        },
+        "empty": "Twój koszyk jest pusty",
+        "delivery": "Dostawa",
+        "payment": "Płatność",
+        "totalValue": "Razem",
+        "deliveryCost": "Koszt dostawy",
+        "toPay": "Do zapłaty",
+        "continueShopping": "Kontynuuj zakupy",
+        "buy": "Zamawiam",
+        "table": {
+            "product": "Produkt",
+            "realizationTime": "Wysyłka w",
+            "quantity": "Ilość",
+            "price": "Cena",
+            "totalPrice": "Wartość",
+            "actions": "Akcja",
+            "days": "dni",
+            "delete": "Usuń produkt z koszyka"
+        },
+        "deliveryForm": {
+            "courier": "Kurier",
+            "personal_pickup": "Odbiór osobisty"
+        },
+        "paymentForm": {
+            "transfer": "Przelew",
+            "payu": "PayU",
+            "blik": "Blik",
+            "credit_card": "Karta płatnicza"
+        },
+        "noRegisterModal": {
+            "title": "Zakupy bez rejestracji",
+            "details": "Aby złożyć zamówienie nie musisz zakładać konta w naszym sklepie.\nWybierz przycisk ''Złóż zamówienie''",
+            "submit": "Złóż zamówienie"
+        },
+        "summary": {
+            "sendingAddress": "Adres wysyłki",
+            "invoiceAddress": "Dane zamawiającego",
+            "informations": "Informacje",
+            "expectedShipmentTime": "Przewidywany termin wysyłki",
+            "shipmentMethod": "Wybrana forma dostawy",
+            "paymentMethod": "Wybrana forma płatności",
+            "orderNumber": "Numer zamówienia"
+        }
     }
 }
