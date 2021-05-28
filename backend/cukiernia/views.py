@@ -11,7 +11,7 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
-from .serializers import UserSerializer, CustomUserSerializer, CategorySerializer, CarouselSerializer, ProductSerializer, OrderSerializer
+from .serializers import UserSerializer, CustomUserSerializer, CategorySerializer, CarouselSerializer, ProductSerializer, OrderSerializer, DecorationSerializer
 from .models import Category, Carousel, CarouselPhoto, Product, ProductPhoto, TextBox, ComboBox, ComboBoxValue
 from .models import RelatedProductJunction, Calendar, Order, InstantRetail, OnDemandRetail, Decoration, Delivery
 
@@ -116,7 +116,7 @@ def product(request, pk):
             related_products.append(product)
         data['related_products'] = related_products
         for combo_box in combo_boxes:
-            combo_box['values'] = list(ComboBoxValue.objects.filter(combo_box_id=combo_box['id']).values('text_pl', 'text_en'))
+            combo_box['values'] = list(ComboBoxValue.objects.filter(combo_box_id=combo_box['id']).values('text_pl', 'text_en', 'price_factor'))
         data['combo_boxes'] = combo_boxes
         data['text_boxes'] = list(TextBox.objects.filter(product_id=pk).values('id', 'name_pl', 'name_en','is_required', 'max_length'))
         data['calendars'] = list(Calendar.objects.filter(product_id=pk).values('id', 'name_pl', 'name_en','is_required'))
@@ -155,10 +155,29 @@ def orders_list(request):
         return JsonResponse(data, safe=False)
     elif request.method == 'POST':
         data = JSONParser().parse(request)
+        decorations = data['decorations']
+        data['price']=0
         serializer = OrderSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse(serializer.data, status=201)
+            price = 0
+            for dec in decorations:
+                dec['order_id']=serializer.data['id']
+                dec_serializer = DecorationSerializer(data=dec)
+                if dec_serializer.is_valid():
+                    dec_serializer.save()
+                    price += dec['price']
+            print(decorations)
+            price += float(list(Delivery.objects.filter(pk=data['delivery']).values('price'))[0]['price'])
+            print(data['products'])
+            products = list(Product.objects.filter(pk__in=data['products']).values('price'))
+            for p in products:
+                price+= (p['price'])
+            print(price)
+            serializer.data['price']=price
+            Order.objects.filter(pk=serializer.data['id']).update(price=price)
+            o = list(Order.objects.filter(pk=serializer.data['id']).values())[0]
+            return JsonResponse(o, status=201)
         return JsonResponse(serializer.errors, status=400)
     return HttpResponse(status=400)
 
