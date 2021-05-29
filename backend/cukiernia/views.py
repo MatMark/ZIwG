@@ -14,6 +14,9 @@ from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from .serializers import UserSerializer, CustomUserSerializer, CategorySerializer, CarouselSerializer, ProductSerializer, OrderSerializer, DecorationSerializer
 from .models import Category, Carousel, CarouselPhoto, Product, ProductPhoto, TextBox, ComboBox, ComboBoxValue
 from .models import RelatedProductJunction, Calendar, Order, InstantRetail, OnDemandRetail, Decoration, Delivery
+from datetime import date
+from datetime import timedelta
+import pandas as pd
 
 # Create your views here.
 class CustomUserCreate(APIView):
@@ -157,6 +160,10 @@ def orders_list(request):
         data = JSONParser().parse(request)
         decorations = data['decorations']
         data['price']=0
+        on_demand = list(OnDemandRetail.objects.filter(product__in=data['products']).values())
+        for p in on_demand:
+            if date.today()+timedelta(days=p['production_time']) > pd.to_datetime(data['delivery_date']): 
+                return HttpResponse(status=400)
         serializer = OrderSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
@@ -167,13 +174,10 @@ def orders_list(request):
                 if dec_serializer.is_valid():
                     dec_serializer.save()
                     price += dec['price']
-            print(decorations)
             price += float(list(Delivery.objects.filter(pk=data['delivery']).values('price'))[0]['price'])
-            print(data['products'])
             products = list(Product.objects.filter(pk__in=data['products']).values('price'))
             for p in products:
                 price+= (p['price'])
-            print(price)
             serializer.data['price']=price
             Order.objects.filter(pk=serializer.data['id']).update(price=price)
             o = list(Order.objects.filter(pk=serializer.data['id']).values())[0]
@@ -213,3 +217,9 @@ def decorations_list(request):
             data = list(Decoration.objects.all().values())
         return JsonResponse(data, safe=False)
     return HttpResponse(status=400)
+
+@api_view(['GET'])
+@permission_classes([])
+def deliveries_list(request):
+    data = list(Delivery.objects.all().values())
+    return JsonResponse(data, safe=False)

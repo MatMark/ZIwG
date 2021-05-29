@@ -4,3 +4,4 @@ django-cors-headers
 django-currentuser
 django-summernote
 pillow
+pandas
