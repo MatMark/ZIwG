@@ -18,15 +18,15 @@ class Product(models.Model):
     name_en = models.CharField(max_length=50)
     product_description_pl = models.TextField()
     product_description_en = models.TextField()
-    category_id = models.ForeignKey('Category', on_delete=models.PROTECT)
+    category = models.ForeignKey('Category', on_delete=models.PROTECT)
     recommended = models.BooleanField()
 
 class OnDemandRetail(models.Model):
-    product_id = models.ForeignKey('Product', on_delete=models.CASCADE, unique=True)
+    product = models.ForeignKey('Product', on_delete=models.CASCADE, unique=True)
     production_time = models.IntegerField(default=1)
 
 class InstantRetail(models.Model):
-    product_id = models.ForeignKey('Product', on_delete=models.CASCADE, unique=True)
+    product = models.ForeignKey('Product', on_delete=models.CASCADE, unique=True)
     quantity_available = models.IntegerField(default=0)
 
 
@@ -35,14 +35,14 @@ class RelatedProductJunction(models.Model):
     related_second = models.ManyToManyField(Product, related_name='related_second')
 
 class ProductPhoto(models.Model):
-    product_id = models.ForeignKey('Product', on_delete=models.PROTECT)
+    product = models.ForeignKey('Product', on_delete=models.PROTECT)
     main_photo = models.BooleanField()
     url = models.ImageField(upload_to =RandomFileName('uploads/products/'))
 
 class TextBox(models.Model):
     name_pl = models.TextField(max_length=255)
     name_en = models.TextField(max_length=255)
-    product_id = models.ForeignKey('Product', on_delete=models.CASCADE)
+    product = models.ForeignKey('Product', on_delete=models.CASCADE)
     is_required = models.BooleanField()
     max_length = models.IntegerField()
 
@@ -50,20 +50,20 @@ class TextBox(models.Model):
 class ComboBox(models.Model):
     name_pl = models.CharField(max_length=50)
     name_en = models.CharField(max_length=50)
-    product_id = models.ForeignKey('Product', on_delete=models.CASCADE)
+    product = models.ForeignKey('Product', on_delete=models.CASCADE)
     is_required = models.BooleanField()
 
 
 class Calendar(models.Model):
     name_pl = models.CharField(max_length=50)
     name_en = models.CharField(max_length=50)
-    product_id = models.ForeignKey('Product', on_delete=models.CASCADE)
+    product = models.ForeignKey('Product', on_delete=models.CASCADE)
     is_required = models.BooleanField()
 
 class ComboBoxValue(models.Model):
     text_pl = models.CharField(max_length=50)
     text_en = models.CharField(max_length=50)
-    combo_box_id = models.ForeignKey('ComboBox', on_delete=models.CASCADE)
+    combo_box = models.ForeignKey('ComboBox', on_delete=models.CASCADE)
     price_factor = models.DecimalField(max_digits=6, decimal_places=2)
 
 class Category(models.Model):
@@ -81,8 +81,8 @@ class Decoration(models.Model):
     name_en = models.CharField(max_length=50)
     value_pl = models.CharField(max_length=50)
     value_en = models.CharField(max_length=50)
-    order_id = models.ForeignKey('Order', on_delete=models.CASCADE)
-    product_id = models.ForeignKey('Product', on_delete=models.PROTECT)
+    order = models.ForeignKey('Order', on_delete=models.CASCADE)
+    product = models.ForeignKey('Product', on_delete=models.PROTECT)
     price = models.DecimalField(max_digits=6, decimal_places=2)
 
 class Order(models.Model):
