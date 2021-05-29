@@ -38,9 +38,7 @@
       </v-col>
       <v-col cols="3" class="caption pa-1">
         <span class="title">{{ order.sumPrice.toFixed(2) }} zł</span>
-        <div>
-          {{ $t("cart.pricePerItem") }} {{ product.price.toFixed(2) }} zł
-        </div>
+        <div>{{ $t("cart.pricePerItem") }} {{ order.price.toFixed(2) }} zł</div>
       </v-col>
       <v-col cols="1" justify="space-between" class="pa-0">
         <v-btn icon small @click="removeProductFromCart()">

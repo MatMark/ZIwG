@@ -71,10 +71,15 @@
           />
         </v-col>
         <v-col class="pa-0" style="margin-top: auto; margin-bottom: auto">
-          <span>{{ product.price.toFixed(2) }} zł</span>
+          <span>{{ getByOrderId.price.toFixed(2) }} zł</span>
         </v-col>
         <v-col class="pa-0" style="margin-top: auto; margin-bottom: auto">
-          <span>{{ (getByOrderId.amount * product.price).toFixed(2) }} zł</span>
+          <span
+            >{{
+              (getByOrderId.amount * getByOrderId.price).toFixed(2)
+            }}
+            zł</span
+          >
         </v-col>
         <v-col class="pa-0" style="margin-top: auto; margin-bottom: auto">
           <v-btn icon @click="removeProduct(order.order_id)">

@@ -113,7 +113,7 @@
           <v-row>
             <span class="title py-2 mx-5">
               {{ $t("productDetailsPage.price") }}:
-              {{ product.price.toFixed(2) }} zł
+              {{ totalItemPrice().toFixed(2) }} zł
             </span>
           </v-row>
           <v-row
@@ -151,6 +151,7 @@
               clearable
               outlined
               dense
+              v-on:change="changeModificator($event, input.values, n)"
             >
               <template v-if="input.is_required === true" v-slot:label>
                 {{ input[`name_${$i18n.locale}`] }} *
@@ -388,7 +389,8 @@ export default {
       amount: 1,
       needDate: null,
       whenYouNeedMenu: false,
-      holidays: []
+      holidays: [],
+      price_modificators: {}
     };
   },
   watch: {
@@ -408,6 +410,7 @@ export default {
       this.amount = 1;
       this.needDate = null;
       this.whenYouNeedMenu = false;
+      this.price_modificators = {};
     }
   },
   mounted() {
@@ -526,7 +529,9 @@ export default {
     },
     comboboxElements(elements) {
       return elements.map(e => {
-        return e[`text_${this.$i18n.locale}`];
+        return (
+          e[`text_${this.$i18n.locale}`] + " (+ " + e.price_factor + " zł)"
+        );
       });
     },
     addToCart() {
@@ -537,7 +542,7 @@ export default {
           product_id: this.$route.params.id,
           amount: this.amount,
           personalization: {},
-          price: this.product.price
+          price: this.totalItemPrice()
         };
 
         this.inputs.text_boxes.forEach((element, i) => {
@@ -574,6 +579,25 @@ export default {
       if (dayOfWeek === 5 || dayOfWeek === 6) return false; // Weekend
       if (this.holidays.includes(nDate)) return false; // Holidays
       return true;
+    },
+    changeModificator(a, b, n) {
+      let val;
+      if (a) {
+        val = b.find(e => {
+          return e.text_pl === a.split(" (")[0];
+        }).price_factor;
+      } else {
+        val = 0;
+      }
+      this.price_modificators[this.product.combo_boxes[n].id] = val;
+    },
+    totalItemPrice() {
+      const modificators = this.price_modificators;
+      const modificatorNames = Object.keys(modificators);
+      const sum = modificatorNames.reduce(function(accumulator, name) {
+        return accumulator + parseFloat(modificators[name]);
+      }, this.product.price);
+      return sum;
     }
   }
 };
