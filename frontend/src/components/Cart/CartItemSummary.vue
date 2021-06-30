@@ -14,7 +14,7 @@
               />
               <v-img
                 v-else
-                :src="require('@/assets/logo.png')"
+                :src="require('@/assets/cookie.png')"
                 contain
                 width="50"
                 height="50"
@@ -30,10 +30,9 @@
               style="text-decoration: none; color: black"
             >
               <div>
-                <span class="subtitle-2"
-                  >{{ product.code }} -
-                  {{ product[`name_${this.$i18n.locale}`] }}</span
-                >
+                <span class="subtitle-2">
+                  {{ product[`name_${this.$i18n.locale}`] }}
+                </span>
                 <br />
                 <div
                   v-for="item in personalizationFields(
@@ -52,13 +51,12 @@
     </v-col>
     <v-col cols="6">
       <v-row style="height: 100%; margin: 0">
-        <v-col class="pa-0" style="margin-top: auto; margin-bottom: auto">
+        <!-- <v-col class="pa-0" style="margin-top: auto; margin-bottom: auto">
           <span>
             X
-            <!-- {{ product.Realization_time }} -->
             {{ $t("yourCartPage.table.days") }}</span
           >
-        </v-col>
+        </v-col> -->
         <v-col class="pa-0" style="margin-top: auto; margin-bottom: auto">
           <span>{{ getByOrderId.amount }}</span>
         </v-col>

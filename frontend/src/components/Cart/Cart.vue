@@ -6,18 +6,18 @@
     <v-container>
       <v-divider />
       <v-row class="subtitle-2">
-        <v-col cols="6">
+        <v-col xs="2" sm="2" md="6" lg="6" xl="6">
           {{ $t("yourCartPage.table.product") }}
         </v-col>
-        <v-col cols="6">
+        <v-col xs="10" sm="10" md="6" lg="6" xl="6">
           <v-row style="margin: 0">
-            <v-col class="pa-0">
+            <!-- <v-col class="pa-0">
               {{ $t("yourCartPage.table.realizationTime") }}
-            </v-col>
-            <v-col class="pa-0">
+            </v-col> -->
+            <v-col class="py-0 hidden-sm-and-down">
               {{ $t("yourCartPage.table.quantity") }}
             </v-col>
-            <v-col class="pa-0">
+            <v-col class="py-0 hidden-sm-and-down">
               {{ $t("yourCartPage.table.price") }}
             </v-col>
             <v-col class="pa-0">
@@ -37,7 +37,7 @@
       <v-row>
         <v-col>
           <v-card flat>
-            <v-card-title class="subtitle-2">
+            <v-card-title class="subtitle-2 py-0">
               {{ $t("yourCartPage.delivery") }}:
             </v-card-title>
             <v-card-text>
@@ -53,7 +53,7 @@
                     $t(`yourCartPage.deliveryForm.${delivery.name}`) +
                       ` - ${delivery.price.toFixed(2)} zł`
                   "
-                  color="red"
+                  color="primary"
                   :value="delivery.name"
                 />
               </v-radio-group>
@@ -62,7 +62,7 @@
         </v-col>
         <v-col>
           <v-card flat>
-            <v-card-title class="subtitle-2">
+            <v-card-title class="subtitle-2 py-0">
               {{ $t("yourCartPage.payment") }}:
             </v-card-title>
             <v-card-text>
@@ -73,22 +73,22 @@
               >
                 <v-radio
                   :label="`${$t('yourCartPage.paymentForm.transfer')}`"
-                  color="red"
+                  color="primary"
                   value="transfer"
                 />
                 <v-radio
                   :label="`${$t('yourCartPage.paymentForm.payu')}`"
-                  color="red"
+                  color="primary"
                   value="payu"
                 />
                 <v-radio
                   :label="`${$t('yourCartPage.paymentForm.blik')}`"
-                  color="red"
+                  color="primary"
                   value="blik"
                 />
                 <v-radio
                   :label="`${$t('yourCartPage.paymentForm.credit_card')}`"
-                  color="red"
+                  color="primary"
                   value="credit_card"
                 />
               </v-radio-group>

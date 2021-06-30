@@ -1,7 +1,7 @@
 <template>
   <v-container v-if="product">
     <v-row>
-      <h1>{{ product[`name_${this.$i18n.locale}`] }} {{ product.code }}</h1>
+      <h1>{{ product[`name_${this.$i18n.locale}`] }}</h1>
     </v-row>
     <v-row>
       <v-col xs="12" sm="6" md="9" lg="9" xl="9">
@@ -48,7 +48,7 @@
                       max-height="375"
                       max-width="500"
                       contain
-                      :src="require('@/assets/logo.png')"
+                      :src="require('@/assets/cookie.png')"
                     />
                     <template v-slot:placeholder>
                       <v-row

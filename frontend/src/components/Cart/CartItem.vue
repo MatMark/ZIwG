@@ -1,6 +1,6 @@
 <template>
   <v-row v-if="product" class="body-2" style="margin: 0">
-    <v-col cols="6" class="py-0">
+    <v-col md="6" lg="6" xl="6" class="py-0 hidden-sm-and-down">
       <v-row class="text-left" style="margin: 0">
         <v-col cols="2" style="margin-top: auto; margin-bottom: auto">
           <router-link :to="`/product_details/${product.id}`">
@@ -13,7 +13,7 @@
             />
             <v-img
               v-else
-              :src="require('@/assets/logo.png')"
+              :src="require('@/assets/cookie.png')"
               contain
               width="50"
               height="50"
@@ -28,10 +28,9 @@
               style="text-decoration: none; color: black"
             >
               <div>
-                <span class="subtitle-2"
-                  >{{ product.code }} -
-                  {{ product[`name_${this.$i18n.locale}`] }}</span
-                >
+                <span class="subtitle-2">
+                  {{ product[`name_${this.$i18n.locale}`] }}
+                </span>
                 <br />
                 <div
                   v-for="item in personalizationFields(
@@ -48,15 +47,33 @@
         </v-col>
       </v-row>
     </v-col>
-    <v-col cols="6">
+    <v-col xs="2" sm="2" class="hidden-md-and-up">
+      <v-col style="margin-top: auto; margin-bottom: auto">
+        <v-row style="height: 100%; margin: 0">
+          <router-link
+            :to="`/product_details/${product.id}`"
+            style="text-decoration: none; color: black"
+          >
+            <div>
+              <span class="subtitle-2">
+                {{ product[`name_${this.$i18n.locale}`] }}
+              </span>
+            </div>
+          </router-link>
+        </v-row>
+      </v-col>
+    </v-col>
+    <v-col xs="10" sm="10" md="6" lg="6" xl="6">
       <v-row style="height: 100%; margin: 0">
-        <v-col class="pa-0" style="margin-top: auto; margin-bottom: auto">
+        <!-- <v-col class="pa-0" style="margin-top: auto; margin-bottom: auto">
           <span>
-            <!-- {{ product.Realization_time }} -->
             X {{ $t("yourCartPage.table.days") }}</span
           >
-        </v-col>
-        <v-col class="pa-0" style="margin-top: auto; margin-bottom: auto">
+        </v-col> -->
+        <v-col
+          class="py-0 hidden-sm-and-down"
+          style="margin-top: auto; margin-bottom: auto"
+        >
           <v-text-field
             v-model="inputValue"
             class="centered-input"
@@ -70,7 +87,10 @@
             @change="editAmount"
           />
         </v-col>
-        <v-col class="pa-0" style="margin-top: auto; margin-bottom: auto">
+        <v-col
+          class="py-0 hidden-sm-and-down"
+          style="margin-top: auto; margin-bottom: auto"
+        >
           <span>{{ getByOrderId.price.toFixed(2) }} zł</span>
         </v-col>
         <v-col class="pa-0" style="margin-top: auto; margin-bottom: auto">

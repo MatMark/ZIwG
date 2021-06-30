@@ -12,7 +12,7 @@
           />
           <v-img
             v-else
-            :src="require('@/assets/logo.png')"
+            :src="require('@/assets/cookie.png')"
             contain
             width="50"
             height="50"

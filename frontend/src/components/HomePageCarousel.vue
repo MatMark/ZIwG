@@ -1,5 +1,6 @@
 <template>
   <v-carousel
+    class="hidden-sm-and-down"
     v-if="enabled"
     cycle
     height="200"

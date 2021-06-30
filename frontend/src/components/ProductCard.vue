@@ -13,7 +13,7 @@
         />
         <v-img
           v-else
-          :src="require('@/assets/logo.png')"
+          :src="require('@/assets/cookie.png')"
           contain
           width="150"
           height="160"
@@ -25,9 +25,9 @@
       <v-card-text class="pa-2">
         <v-container class="py-2">
           <v-row>
-            <v-card style="height: 100px" class="caption text-left" flat>
-              {{ $t("productCard.code") }}: <em>{{ product.code }}</em>
-              <br />
+            <v-card style="height: 40px" class="caption text-left" flat>
+              <!-- {{ $t("productCard.code") }}: <em>{{ product.code }}</em> -->
+              <!-- <br /> -->
               {{ $t("productCard.name") }}:
               <em>{{ product[`name_${this.$i18n.locale}`] }}</em>
             </v-card>

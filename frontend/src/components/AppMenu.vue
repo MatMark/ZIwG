@@ -9,17 +9,23 @@
     <router-link to="/home">
       <div class="d-flex align-center">
         <v-img
-          alt="Vuetify Logo"
+          alt="Cookie Logo"
           class="shrink mr-2"
           contain
-          :src="require('@/assets/logo.svg')"
+          :src="require('@/assets/cookie.png')"
           transition="scale-transition"
           width="40"
         />
+        <h1
+          class="hidden-sm-and-down"
+          style='font-family: "Roboto", sans-serif; color: white; text-decoration: underline'
+        >
+          Cukiernia W4
+        </h1>
       </div>
     </router-link>
 
-    <v-row align="center" justify="center" class="hidden-sm-and-down">
+    <v-row align="center" justify="center">
       <v-btn-toggle tile group>
         <v-menu
           v-model="openMenu"
@@ -66,17 +72,27 @@
           </v-list>
         </v-menu>
 
-        <v-btn :to="`/packing`" text color="deep-purple lighten-5">
-          {{ $t("appMenu.packing") }}
+        <v-btn
+          class="hidden-sm-and-down"
+          :to="`/faq`"
+          text
+          color="deep-purple lighten-5"
+        >
+          {{ $t("appMenu.faq") }}
         </v-btn>
 
-        <v-btn :to="`/contact`" text color="deep-purple lighten-5">
+        <v-btn
+          class="hidden-sm-and-down"
+          :to="`/contact`"
+          text
+          color="deep-purple lighten-5"
+        >
           {{ $t("appMenu.contact") }}
         </v-btn>
       </v-btn-toggle>
     </v-row>
     <div>
-      <v-toolbar class="hidden-sm-and-down" color="transparent" flat>
+      <v-toolbar color="transparent" flat>
         <LanguageSwitcher />
         <CartButton />
       </v-toolbar>

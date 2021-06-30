@@ -15,7 +15,8 @@
         "allProducts": "All products",
         "packing": "How I pack your order",
         "contact": "Contact",
-        "cart": "Cart"
+        "cart": "Cart",
+        "faq": "FAQ"
     },
     "productsPage": {
         "category": "Category",
