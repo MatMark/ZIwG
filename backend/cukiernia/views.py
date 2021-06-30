@@ -8,6 +8,7 @@ from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
@@ -48,7 +49,7 @@ class CustomObtainAuthToken(ObtainAuthToken):
         return Response({'token': token.key, 'id': token.user_id, 'is_admin': user.is_superuser})
 
 @api_view(['GET',])
-@permission_classes([])
+@permission_classes([AllowAny])
 def categories_list(request):
     if request.method == 'GET':
         data = Category.objects.all()
@@ -56,7 +57,7 @@ def categories_list(request):
         return JsonResponse(serializer.data, safe=False)
 
 @api_view(['GET',])
-@authentication_classes([])
+@authentication_classes([AllowAny])
 def carousel(request):
     if request.method == 'GET':
         data = Carousel.objects.all()
@@ -67,7 +68,7 @@ def carousel(request):
         return JsonResponse(result, safe=False)
 
 @api_view(['GET',])
-@permission_classes([])
+@permission_classes([AllowAny])
 def products_list(request):
     if request.method == 'GET':
         if request.GET.get('category','') != "":
@@ -95,7 +96,7 @@ def products_list(request):
         return JsonResponse(data, safe=False)
 
 @api_view(['GET',])
-@permission_classes([])
+@permission_classes([AllowAny])
 def product(request, pk):
     try:
         data = list(Product.objects.filter(pk=pk).values())[0]
@@ -136,7 +137,8 @@ def product(request, pk):
         return JsonResponse(data)
 
 @api_view(['GET', 'POST'])
-@permission_classes([])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def orders_list(request):
     if request.method == 'GET':
         if request.GET.get('user','') != "":
@@ -188,7 +190,8 @@ def orders_list(request):
 
 
 @api_view(['GET',])
-@permission_classes([])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def order(request, pk):
     try:
         data = list(Order.objects.filter(pk=pk).values())[0]
@@ -208,7 +211,7 @@ def order(request, pk):
     return JsonResponse(data)
 
 @api_view(['GET'])
-@permission_classes([])
+@permission_classes([AllowAny])
 def decorations_list(request):
     if request.method == 'GET':
         if request.GET.get('order','') != "":
@@ -219,7 +222,7 @@ def decorations_list(request):
     return HttpResponse(status=400)
 
 @api_view(['GET'])
-@permission_classes([])
+@permission_classes([AllowAny])
 def deliveries_list(request):
     data = list(Delivery.objects.all().values())
     return JsonResponse(data, safe=False)
