@@ -57,7 +57,7 @@ def categories_list(request):
         return JsonResponse(serializer.data, safe=False)
 
 @api_view(['GET',])
-@authentication_classes([AllowAny])
+@permission_classes([AllowAny])
 def carousel(request):
     if request.method == 'GET':
         data = Carousel.objects.all()
