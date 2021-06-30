@@ -22,7 +22,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('backend/', include('cukiernia.urls')),
     path('backend/admin/', admin.site.urls),
-    path('summernote/', include('django_summernote.urls'))
+    path('backend/summernote/', include('django_summernote.urls'))
 ]
 
 

@@ -1,5 +1,7 @@
 django
 djangorestframework
 django-cors-headers
-pillow
+django-currentuser
 django-summernote
+pillow
+pandas

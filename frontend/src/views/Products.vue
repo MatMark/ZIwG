@@ -5,8 +5,14 @@
         <v-card>
           <v-col class="pb-0">
             <v-row justify="space-between" align="center" no-gutters>
-              <v-card-title class="py-0">
-                {{ $t("appMenu.allProducts") }}
+              <v-card-title v-if="categories" class="py-0">
+                {{ $t("productsPage.category") }}:
+                {{
+                  categories.find(
+                    category =>
+                      category.id === parseInt(this.$route.params.category)
+                  )[`name_${this.$i18n.locale.toLocaleLowerCase()}`]
+                }}
               </v-card-title>
               <v-col cols="4" v-if="products">
                 <v-autocomplete
@@ -79,7 +85,8 @@ export default {
   data() {
     return {
       products: null,
-      search: null
+      search: null,
+      categories: null
     };
   },
   computed: {
@@ -94,10 +101,24 @@ export default {
       });
     }
   },
+  watch: {
+    $route() {
+      this.$axios
+        .get(
+          `${process.env.VUE_APP_DOMAIN}/backend/products/?category=${this.$route.params.category}`
+        )
+        .then(response => (this.products = response.data));
+    }
+  },
   mounted() {
     this.$axios
-      .get(`${process.env.VUE_APP_DOMAIN}/backend/products/`)
+      .get(
+        `${process.env.VUE_APP_DOMAIN}/backend/products/?category=${this.$route.params.category}`
+      )
       .then(response => (this.products = response.data));
+    this.$axios
+      .get(`${process.env.VUE_APP_DOMAIN}/backend/categories/`)
+      .then(response => (this.categories = response.data));
   }
 };
 </script>

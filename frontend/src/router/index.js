@@ -2,7 +2,12 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "@/views/Home.vue";
 import ProductDetails from "@/views/ProductDetails.vue";
+import Products from "@/views/Products.vue";
 import AllProducts from "@/views/AllProducts.vue";
+import YourCart from "@/views/YourCart.vue";
+import Contact from "@/views/Contact.vue";
+import FAQ from "@/views/FAQ.vue";
+// import WorkInProgress from "@/views/WorkInProgress.vue";
 import PageNotFound from "@/views/PageNotFound.vue";
 
 Vue.use(VueRouter);
@@ -20,9 +25,29 @@ const routes = [
     component: ProductDetails
   },
   {
+    path: "/products/:category",
+    name: "ProductsWithCategory",
+    component: Products
+  },
+  {
     path: "/all_products",
     name: "AllProducts",
     component: AllProducts
+  },
+  {
+    path: "/yourCart",
+    name: "YourCart",
+    component: YourCart
+  },
+  {
+    path: "/faq",
+    name: "FAQ",
+    component: FAQ
+  },
+  {
+    path: "/contact",
+    name: "Contact",
+    component: Contact
   },
   {
     path: "/*",

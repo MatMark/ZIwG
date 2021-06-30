@@ -1,6 +1,7 @@
 <template>
   <v-carousel
-    v-if="photos"
+    class="hidden-sm-and-down"
+    v-if="enabled"
     cycle
     height="200"
     hide-delimiter-background
@@ -8,9 +9,9 @@
   >
     <template v-if="photos">
       <v-carousel-item
-        v-for="(photo, key) in photos.data"
+        v-for="(photo, key) in photos"
         :key="key"
-        :src="photo.download_url"
+        :src="`${baseUrl}/${photo.url}`"
       />
     </template>
     <template v-else>
@@ -23,13 +24,20 @@
 export default {
   data() {
     return {
+      baseUrl: process.env.VUE_APP_DOMAIN,
+      enabled: undefined,
       photos: []
     };
   },
   mounted() {
     this.$axios
-      .get("https://picsum.photos/v2/list?page=2&limit=3")
-      .then(response => (this.photos = response));
+      .get(`${process.env.VUE_APP_DOMAIN}/backend/carousel/`)
+      .then(
+        response => (
+          (this.photos = response.data.photos),
+          (this.enabled = response.data.enabled)
+        )
+      );
   }
 };
 </script>

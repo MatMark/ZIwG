@@ -4,7 +4,7 @@
       <router-link class="pa-1" :to="`/product_details/${product.id}`">
         <v-img
           v-if="product.photo"
-          :src="product.photo"
+          :src="`${baseUrl}/${product.photo}`"
           contain
           width="150"
           height="160"
@@ -13,7 +13,7 @@
         />
         <v-img
           v-else
-          :src="require('@/assets/logo.png')"
+          :src="require('@/assets/cookie.png')"
           contain
           width="150"
           height="160"
@@ -25,16 +25,11 @@
       <v-card-text class="pa-2">
         <v-container class="py-2">
           <v-row>
-            <v-card style="height: 100px" class="caption text-left" flat>
-              {{ $t("productCard.code") }}: <em>{{ product.code }}</em>
-              <br />
+            <v-card style="height: 40px" class="caption text-left" flat>
+              <!-- {{ $t("productCard.code") }}: <em>{{ product.code }}</em> -->
+              <!-- <br /> -->
               {{ $t("productCard.name") }}:
-              <template v-if="this.$i18n.locale === 'pl'"
-                ><em>{{ product.name_pl }}</em></template
-              >
-              <template v-else
-                ><em>{{ product.name_en }}</em></template
-              >
+              <em>{{ product[`name_${this.$i18n.locale}`] }}</em>
             </v-card>
           </v-row>
         </v-container>
@@ -75,7 +70,9 @@ export default {
     }
   },
   data() {
-    return {};
+    return {
+      baseUrl: process.env.VUE_APP_DOMAIN
+    };
   },
   methods: {
     addToCart() {

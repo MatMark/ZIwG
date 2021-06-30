@@ -12,9 +12,11 @@
     "appMenu": {
         "language": "Language",
         "menu": "Menu",
-        "allProducts": "ALL PRODUCTS",
+        "allProducts": "All products",
         "packing": "How I pack your order",
-        "contact": "Contact"
+        "contact": "Contact",
+        "cart": "Cart",
+        "faq": "FAQ"
     },
     "productsPage": {
         "category": "Category",
@@ -23,6 +25,129 @@
     },
     "productDetailsPage": {
         "price": "Price",
-        "description": "Description"
+        "description": "Description",
+        "relatedProducts": "For this product we recommend",
+        "required": "Required fields",
+        "note": "Important information for the store",
+        "addToCart": "Add to cart",
+        "whenYouNeedCake": "When you need a cake?",
+        "validation": {
+            "notEmpty": "This field cannot be empty",
+            "maxLength": "Max length is {length}",
+            "invalidNIP": "Invalid NIP",
+            "invalidEmail": "Invalid e-mail",
+            "invalidPhone": "Invalid phone number"
+        }
+    },
+    "cart": {
+        "empty": "Your cart is empty",
+        "pay": "Pay",
+        "amount": "Amount",
+        "title": "Cart",
+        "subtitle": "Items in cart",
+        "pricePerItem": "Price per item"
+    },
+    "yourCartPage": {
+        "personalization": {
+            "needDate": "When need",
+            "note": "Notes for seller",
+            "selectedLabel": "Selected label",
+            "labelText": "Label text",
+            "labelDate": "Label date"
+        },
+        "stepper": {
+            "cart": "Cart",
+            "yourData": "Your data",
+            "summary": "Summary",
+            "confirmation": "Confirmation",
+            "continue": "Continue",
+            "back": "Back"
+        },
+        "inputs": {
+            "yourData": {
+                "title": "Your data",
+                "email": "E-mail*",
+                "firstName": "First name*",
+                "lastName": "Last name*",
+                "phone": "Phone*"
+            },
+            "address": {
+                "title": "Address",
+                "private": "Private",
+                "business": "Business",
+                "businessName": "Business name*",
+                "nip": "NIP*",
+                "street": "Street*",
+                "houseNumber": "House number*",
+                "apartmentNumber": "Apartment number",
+                "postCode": "Post code*",
+                "city": "City*",
+                "country": "Country",
+                "otherSendAddress": "Other send address"
+            },
+            "sendAddress": {
+                "title": "Send address",
+                "firstName": "First name*",
+                "lastName": "Last name*",
+                "phone": "Phone*",
+                "businessName": "Business name",
+                "street": "Street*",
+                "houseNumber": "House number*",
+                "apartmentNumber": "Apartment number",
+                "postCode": "Post code*",
+                "city": "City*",
+                "country": "Country"
+            },
+            "additionalInfo": {
+                "title": "Additional info",
+                "note": "Notes for seller",
+                "regulationsBefore": "I accept ",
+                "regulationsLink": "regulatons",
+                "regulationsAfter": "*",
+                "newsletter": "Subscribe to the newsletter"
+            }
+        },
+        "empty": "Your cart is empty",
+        "delivery": "Delivery",
+        "payment": "Payment",
+        "totalValue": "Total value",
+        "deliveryCost": "Delivery cost",
+        "toPay": "To pay",
+        "continueShopping": "Continue shopping",
+        "buy": "Buy",
+        "table": {
+            "product": "Product",
+            "realizationTime": "Realization time",
+            "quantity": "Quantity",
+            "price": "Price",
+            "totalPrice": "Total",
+            "actions": "Actions",
+            "days": "days",
+            "delete": "Remove product from your cart"
+        },
+        "deliveryForm": {
+            "courier": "Courier",
+            "personal_pickup": "Personal pickup"
+        },
+        "paymentForm": {
+            "transfer": "Transfer",
+            "payu": "PayU",
+            "blik": "Blik",
+            "credit_card": "Credit card"
+        },
+        "noRegisterModal": {
+            "title": "Purchase without registration",
+            "details": "To place an order, you do not need to create an account in our store. Select ''Submit order''",
+            "submit": "Submit order"
+        },
+        "summary": {
+            "sendingAddress": "Sending address",
+            "invoiceAddress": "Client data",
+            "informations": "Informations",
+            "expectedShipmentTime": "Expected shipment time",
+            "shipmentMethod": "Shipment method",
+            "paymentMethod": "Payment method",
+            "orderNumber": "Order number"
+        }
     }
 }
